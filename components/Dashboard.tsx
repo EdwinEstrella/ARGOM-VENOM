@@ -123,33 +123,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ setPage, openSwapModal }) 
                     <div className="rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
                         <h2 className="text-white text-xl font-bold mb-4">{t.sections.yourAssets}</h2>
                         <div className="overflow-x-auto">
-                            <table className="w-full responsive-table">
-                                <thead>
+                            <table className="min-w-full divide-y divide-[#292938]">
+                                <thead className="bg-[#121212]">
                                     <tr>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.asset}</th>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.price}</th>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.balance}</th>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.value}</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.asset}</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.price}</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.balance}</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.value}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="bg-[#1A1A1D] divide-y divide-[#292938]">
                                     {mockAssets.map(asset => (
-                                        <tr key={asset.ticker} className="border-t border-[#292938]">
-                                            <td data-label="Asset" className="py-4">
+                                        <tr key={asset.ticker}>
+                                            <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="bg-primary/20 text-primary font-bold size-10 rounded-full flex items-center justify-center">{asset.icon[0]}</div>
+                                                    <div className="bg-primary/20 text-primary font-bold size-10 rounded-full flex items-center justify-center flex-shrink-0">{asset.icon[0]}</div>
                                                     <div>
                                                         <p className="font-bold text-white">{asset.name}</p>
                                                         <p className="text-sm text-[#A0A0A0]">{asset.ticker}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td data-label="Price" className="py-4 font-mono text-white">
-                                                ${asset.price.toLocaleString()}
-                                                <p className={`text-sm ${asset.change24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>{asset.change24h.toFixed(2)}%</p>
+                                            <td className="px-6 py-4 whitespace-nowrap font-mono text-white">
+                                                <div>${asset.price.toLocaleString()}</div>
+                                                <div className={`text-sm ${asset.change24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>{asset.change24h.toFixed(2)}%</div>
                                             </td>
-                                            <td data-label="Balance" className="py-4 font-mono text-white">{asset.balance.toLocaleString()} {asset.ticker}</td>
-                                            <td data-label="Value" className="py-4 font-mono text-white">${asset.value.toLocaleString()}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap font-mono text-white">{asset.balance.toLocaleString()} {asset.ticker}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap font-mono text-white">${asset.value.toLocaleString()}</td>
                                         </tr>
                                     ))}
                                 </tbody>
