@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import type { Currency, TriggerType } from '../types';
 
 interface ConfigurationPanelProps {
@@ -18,27 +19,89 @@ interface ConfigurationPanelProps {
     setGasFee: (value: number) => void;
 }
 
-const triggerOptions: { id: TriggerType, label: string }[] = [
-    { id: 'priceDip', label: 'Price Dip' },
-    { id: 'volumeSpike', label: 'Volume Spike' },
-    { id: 'newLiquidity', label: 'New Liquidity' }
-];
-
 export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
     amount, setAmount, currency, setCurrency, contractAddress, setContractAddress,
     trigger, setTrigger, triggerValue, setTriggerValue, slippage, setSlippage,
     gasFee, setGasFee
 }) => {
-    
+    const { isEnglish } = useLanguage();
+
+    const translations = {
+        en: {
+            sections: {
+                investment: "Investment Details",
+                trigger: "Purchase Trigger",
+                transaction: "Transaction Settings"
+            },
+            labels: {
+                amountToInvest: "Amount to Invest",
+                paymentCurrency: "Payment Currency",
+                targetContract: "Target Memecoin Contract Address",
+                slippageTolerance: "Slippage Tolerance",
+                maxGasFee: "Max Gas Fee (Gwei)",
+                priceDipPercent: "Price Dip Percentage (%)",
+                volumeSpikePercent: "Volume Spike Percentage (%)"
+            },
+            placeholders: {
+                amount: "e.g., 1.5",
+                contract: "Paste contract address here",
+                priceDip: "e.g., 10 for a 10% dip",
+                volumeSpike: "e.g., 200 for 200% spike"
+            },
+            triggers: {
+                priceDip: "Price Dip",
+                volumeSpike: "Volume Spike",
+                newLiquidity: "New Liquidity"
+            },
+            newLiquidityNote: "Bot will buy as soon as liquidity is added. No extra parameter needed."
+        },
+        es: {
+            sections: {
+                investment: "Detalles de Inversión",
+                trigger: "Disparador de Compra",
+                transaction: "Configuración de Transacción"
+            },
+            labels: {
+                amountToInvest: "Monto a Invertir",
+                paymentCurrency: "Moneda de Pago",
+                targetContract: "Dirección de Contrato del Memecoin Objetivo",
+                slippageTolerance: "Tolerancia de Slippage",
+                maxGasFee: "Tarifa Máxima de Gas (Gwei)",
+                priceDipPercent: "Porcentaje de Caída de Precio (%)",
+                volumeSpikePercent: "Porcentaje de Aumento de Volumen (%)"
+            },
+            placeholders: {
+                amount: "ej: 1.5",
+                contract: "Pega la dirección del contrato aquí",
+                priceDip: "ej: 10 para una caída del 10%",
+                volumeSpike: "ej: 200 para un aumento del 200%"
+            },
+            triggers: {
+                priceDip: "Caída de Precio",
+                volumeSpike: "Aumento de Volumen",
+                newLiquidity: "Nueva Liquidez"
+            },
+            newLiquidityNote: "El bot comprará tan pronto se añada liquidez. No se necesita parámetro adicional."
+        }
+    };
+
+    const t = isEnglish ? translations.en : translations.es;
+
+    const triggerOptions: { id: TriggerType, label: string }[] = [
+        { id: 'priceDip', label: t.triggers.priceDip },
+        { id: 'volumeSpike', label: t.triggers.volumeSpike },
+        { id: 'newLiquidity', label: t.triggers.newLiquidity }
+    ];
+
     const renderTriggerInput = () => {
         switch (trigger) {
             case 'priceDip':
                 return (
                     <label className="flex flex-col flex-1">
-                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Price Dip Percentage (%)</p>
+                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">{t.labels.priceDipPercent}</p>
                         <input
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 text-base font-normal leading-normal"
-                            placeholder="e.g., 10 for a 10% dip"
+                            placeholder={t.placeholders.priceDip}
                             type="number"
                             value={triggerValue}
                             onChange={(e) => setTriggerValue(e.target.value)}
@@ -48,10 +111,10 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
             case 'volumeSpike':
                  return (
                     <label className="flex flex-col flex-1">
-                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Volume Spike Percentage (%)</p>
+                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">{t.labels.volumeSpikePercent}</p>
                         <input
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 text-base font-normal leading-normal"
-                            placeholder="e.g., 200 for 200% spike"
+                            placeholder={t.placeholders.volumeSpike}
                             type="number"
                             value={triggerValue}
                             onChange={(e) => setTriggerValue(e.target.value)}
@@ -59,7 +122,7 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
                     </label>
                 );
             case 'newLiquidity':
-                return <div className="text-sm text-[#A0A0A0]">Bot will buy as soon as liquidity is added. No extra parameter needed.</div>;
+                return <div className="text-sm text-[#A0A0A0]">{t.newLiquidityNote}</div>;
             default:
                 return null;
         }
@@ -68,20 +131,20 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
     return (
         <>
             <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Investment Details</h2>
+                <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">{t.sections.investment}</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <label className="flex flex-col flex-1">
-                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Amount to Invest</p>
+                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">{t.labels.amountToInvest}</p>
                         <input
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 text-base font-normal leading-normal"
-                            placeholder="e.g., 1.5"
+                            placeholder={t.placeholders.amount}
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                         />
                     </label>
                     <label className="flex flex-col flex-1">
-                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Payment Currency</p>
+                        <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">{t.labels.paymentCurrency}</p>
                         <select
                             className="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 px-4 text-base font-normal leading-normal"
                             value={currency}
@@ -94,17 +157,17 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
                     </label>
                 </div>
                 <label className="flex flex-col flex-1">
-                    <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Target Memecoin Contract Address</p>
+                    <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">{t.labels.targetContract}</p>
                     <input
                         className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 text-base font-normal leading-normal"
-                        placeholder="Paste contract address here"
+                        placeholder={t.placeholders.contract}
                         value={contractAddress}
                         onChange={(e) => setContractAddress(e.target.value)}
                     />
                 </label>
             </div>
             <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Purchase Trigger</h2>
+                <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">{t.sections.trigger}</h2>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                     {triggerOptions.map(option => (
                         <label key={option.id} className="flex items-center gap-3 rounded-lg border border-[#3c3c53] bg-[#121212] p-4 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/10">
@@ -122,11 +185,11 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
                 {renderTriggerInput()}
             </div>
             <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Transaction Settings</h2>
+                <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">{t.sections.transaction}</h2>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <label className="flex flex-col flex-1">
                         <div className="flex items-center justify-between pb-2">
-                            <p className="text-[#EAEAEA] text-base font-medium leading-normal">Slippage Tolerance</p>
+                            <p className="text-[#EAEAEA] text-base font-medium leading-normal">{t.labels.slippageTolerance}</p>
                             <span className="text-primary font-bold">{slippage}%</span>
                         </div>
                         <input
@@ -140,7 +203,7 @@ export const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
                     </label>
                     <label className="flex flex-col flex-1">
                         <div className="flex items-center justify-between pb-2">
-                            <p className="text-[#EAEAEA] text-base font-medium leading-normal">Max Gas Fee (Gwei)</p>
+                            <p className="text-[#EAEAEA] text-base font-medium leading-normal">{t.labels.maxGasFee}</p>
                             <span className="text-primary font-bold">{gasFee}</span>
                         </div>
                         <input

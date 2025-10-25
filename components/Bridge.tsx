@@ -1,13 +1,44 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const networks = ['Solana', 'Ethereum', 'Base', 'Arbitrum'];
 const tokens = ['USDC', 'WETH', 'WIF'];
 
 export const Bridge: React.FC = () => {
+    const { isEnglish } = useLanguage();
     const [fromNetwork, setFromNetwork] = useState('Solana');
     const [toNetwork, setToNetwork] = useState('Ethereum');
     const [token, setToken] = useState('USDC');
     const [amount, setAmount] = useState('');
+
+    const translations = {
+        en: {
+            title: "Bridge Assets",
+            subtitle: "Move your assets seamlessly across different chains.",
+            crossChainTitle: "Cross-Chain Transfer",
+            labels: {
+                from: "From",
+                to: "To",
+                youWillReceive: "You will receive:",
+                estimatedFee: "Estimated Fee:"
+            },
+            button: "Initiate Bridge"
+        },
+        es: {
+            title: "Puentear Activos",
+            subtitle: "Mueve tus activos sin problemas entre diferentes cadenas.",
+            crossChainTitle: "Transferencia Entre Cadenas",
+            labels: {
+                from: "Desde",
+                to: "Hacia",
+                youWillReceive: "Recibirás:",
+                estimatedFee: "Tarifa Estimada:"
+            },
+            button: "Iniciar Puenteo"
+        }
+    };
+
+    const t = isEnglish ? translations.en : translations.es;
 
     const handleSwapNetworks = () => {
         setFromNetwork(toNetwork);
@@ -17,17 +48,17 @@ export const Bridge: React.FC = () => {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
-                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Bridge Assets</h1>
-                <p className="text-[#A0A0A0] text-base font-normal leading-normal">Move your assets seamlessly across different chains.</p>
+                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">{t.title}</h1>
+                <p className="text-[#A0A0A0] text-base font-normal leading-normal">{t.subtitle}</p>
             </div>
 
             <div className="max-w-2xl mx-auto w-full">
                 <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                    <h2 className="text-white text-xl font-bold">Cross-Chain Transfer</h2>
+                    <h2 className="text-white text-xl font-bold">{t.crossChainTitle}</h2>
 
                     {/* From Network */}
                     <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#121212] border border-[#3c3c53]">
-                        <p className="text-sm text-[#A0A0A0]">From</p>
+                        <p className="text-sm text-[#A0A0A0]">{t.labels.from}</p>
                         <div className="flex justify-between items-center gap-4">
                             <select className="bg-transparent text-xl font-bold text-white w-full focus:outline-none appearance-none" value={fromNetwork} onChange={e => setFromNetwork(e.target.value)}>
                                 {networks.map(net => <option key={net} value={net} className="bg-[#121212]">{net}</option>)}
@@ -51,7 +82,7 @@ export const Bridge: React.FC = () => {
 
                     {/* To Network */}
                     <div className="flex flex-col gap-2 p-4 rounded-lg bg-[#121212] border border-[#3c3c53]">
-                        <p className="text-sm text-[#A0A0A0]">To</p>
+                        <p className="text-sm text-[#A0A0A0]">{t.labels.to}</p>
                          <div className="flex justify-between items-center gap-4">
                             <select className="bg-transparent text-xl font-bold text-white w-full focus:outline-none appearance-none" value={toNetwork} onChange={e => setToNetwork(e.target.value)}>
                                  {networks.map(net => <option key={net} value={net} className="bg-[#121212]">{net}</option>)}
@@ -64,20 +95,20 @@ export const Bridge: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="text-sm text-[#A0A0A0] mt-4 space-y-1">
                         <div className="flex justify-between">
-                            <span>You will receive:</span>
+                            <span>{t.labels.youWillReceive}</span>
                             <span className="text-white font-mono">{amount || '0.0'} {token}</span>
                         </div>
                          <div className="flex justify-between">
-                            <span>Estimated Fee:</span>
+                            <span>{t.labels.estimatedFee}</span>
                             <span className="text-white font-mono">~0.005 ETH</span>
                         </div>
                     </div>
 
                     <button className="flex w-full mt-4 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-12 px-4 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all disabled:bg-gray-500 disabled:cursor-not-allowed" disabled={!amount}>
-                        Initiate Bridge
+                        {t.button}
                     </button>
                 </div>
             </div>

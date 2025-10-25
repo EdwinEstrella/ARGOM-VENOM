@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import type { Asset, Activity, Page, OrderType } from '../types';
 
 const mockAssets: Asset[] = [
@@ -32,47 +33,103 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ setPage, openSwapModal }) => {
-    
+    const { isEnglish } = useLanguage();
+
+    const translations = {
+        en: {
+            stats: {
+                portfolioValue: "Portfolio Value",
+                pnl24h: "24h P&L",
+                totalPnl: "Total P&L",
+                walletBalance: "Wallet Balance"
+            },
+            sections: {
+                quickActions: "Quick Actions",
+                yourAssets: "Your Assets",
+                recentActivity: "Recent Activity"
+            },
+            actions: {
+                newAutoBuy: "New Auto-Buy",
+                createStrategy: "Create a new strategy",
+                swapTokens: "Swap Tokens",
+                manualTrade: "Execute a manual trade"
+            },
+            table: {
+                asset: "Asset",
+                price: "Price",
+                balance: "Balance",
+                value: "Value"
+            }
+        },
+        es: {
+            stats: {
+                portfolioValue: "Valor del Portfolio",
+                pnl24h: "P&L 24h",
+                totalPnl: "P&L Total",
+                walletBalance: "Balance de Billetera"
+            },
+            sections: {
+                quickActions: "Acciones Rápidas",
+                yourAssets: "Tus Activos",
+                recentActivity: "Actividad Reciente"
+            },
+            actions: {
+                newAutoBuy: "Nuevo Auto-Compra",
+                createStrategy: "Crear una nueva estrategia",
+                swapTokens: "Intercambiar Tokens",
+                manualTrade: "Ejecutar una operación manual"
+            },
+            table: {
+                asset: "Activo",
+                price: "Precio",
+                balance: "Balance",
+                value: "Valor"
+            }
+        }
+    };
+
+    const t = isEnglish ? translations.en : translations.es;
+
     return (
         <div className="flex flex-col gap-8">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <StatCard title="Portfolio Value" value="$18,874.58" change="+3.2%" changeType="positive" />
-                <StatCard title="24h P&L" value="$589.12" change="+3.2%" changeType="positive" />
-                <StatCard title="Total P&L" value="$2,130.90" change="+12.7%" changeType="positive" />
-                 <StatCard title="Wallet Balance" value="25.4 SOL" />
+                <StatCard title={t.stats.portfolioValue} value="$18,874.58" change="+3.2%" changeType="positive" />
+                <StatCard title={t.stats.pnl24h} value="$589.12" change="+3.2%" changeType="positive" />
+                <StatCard title={t.stats.totalPnl} value="$2,130.90" change="+12.7%" changeType="positive" />
+                 <StatCard title={t.stats.walletBalance} value="25.4 SOL" />
             </div>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
                 <div className="lg:col-span-3 flex flex-col gap-4">
                      <div className="rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                        <h2 className="text-white text-xl font-bold mb-4">Quick Actions</h2>
+                        <h2 className="text-white text-xl font-bold mb-4">{t.sections.quickActions}</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <button onClick={() => setPage('auto-buy')} className="flex items-center gap-3 rounded-lg bg-[#292938] p-4 text-left hover:bg-[#3c3c53] transition-colors">
                                 <span className="material-symbols-outlined text-primary text-2xl">smart_toy</span>
                                 <div>
-                                    <p className="font-bold text-white">New Auto-Buy</p>
-                                    <p className="text-sm text-[#A0A0A0]">Create a new strategy</p>
+                                    <p className="font-bold text-white">{t.actions.newAutoBuy}</p>
+                                    <p className="text-sm text-[#A0A0A0]">{t.actions.createStrategy}</p>
                                 </div>
                             </button>
                              <button onClick={() => openSwapModal('Buy')} className="flex items-center gap-3 rounded-lg bg-[#292938] p-4 text-left hover:bg-[#3c3c53] transition-colors">
                                 <span className="material-symbols-outlined text-primary text-2xl">swap_horiz</span>
                                 <div>
-                                    <p className="font-bold text-white">Swap Tokens</p>
-                                    <p className="text-sm text-[#A0A0A0]">Execute a manual trade</p>
+                                    <p className="font-bold text-white">{t.actions.swapTokens}</p>
+                                    <p className="text-sm text-[#A0A0A0]">{t.actions.manualTrade}</p>
                                 </div>
                             </button>
                         </div>
                     </div>
                     <div className="rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                        <h2 className="text-white text-xl font-bold mb-4">Your Assets</h2>
+                        <h2 className="text-white text-xl font-bold mb-4">{t.sections.yourAssets}</h2>
                         <div className="overflow-x-auto">
                             <table className="w-full responsive-table">
                                 <thead>
                                     <tr>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Asset</th>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Price</th>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Balance</th>
-                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Value</th>
+                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.asset}</th>
+                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.price}</th>
+                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.balance}</th>
+                                        <th className="py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.table.value}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,7 +160,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setPage, openSwapModal }) 
 
                 <div className="lg:col-span-2 flex flex-col gap-4">
                     <div className="rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-                        <h2 className="text-white text-xl font-bold mb-4">Recent Activity</h2>
+                        <h2 className="text-white text-xl font-bold mb-4">{t.sections.recentActivity}</h2>
                         <div className="flex flex-col gap-4">
                             {mockActivities.map(activity => (
                                 <div key={activity.id} className="flex items-center gap-4">

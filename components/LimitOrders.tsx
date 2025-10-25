@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import type { LimitOrder, OrderStatus, OrderType } from '../types';
 
 const mockOrders: LimitOrder[] = [
@@ -20,19 +21,80 @@ const typeColors: Record<OrderType, string> = {
     Sell: 'text-red-400',
 };
 
-
 export const LimitOrders: React.FC = () => {
+    const { isEnglish } = useLanguage();
     const [activeTab, setActiveTab] = useState<OrderStatus>('Active');
 
+    const translations = {
+        en: {
+            title: "Limit Orders",
+            subtitle: "Manage your pending, filled, and cancelled limit orders.",
+            tabs: {
+                active: "Active",
+                filled: "Filled",
+                cancelled: "Cancelled"
+            },
+            headers: {
+                pair: "Pair",
+                type: "Type",
+                price: "Price",
+                amount: "Amount",
+                status: "Status",
+                actions: "Actions"
+            },
+            cancelButton: "Cancel"
+        },
+        es: {
+            title: "Órdenes Límite",
+            subtitle: "Gestiona tus órdenes límite pendientes, ejecutadas y canceladas.",
+            tabs: {
+                active: "Activas",
+                filled: "Ejecutadas",
+                cancelled: "Canceladas"
+            },
+            headers: {
+                pair: "Par",
+                type: "Tipo",
+                price: "Precio",
+                amount: "Cantidad",
+                status: "Estado",
+                actions: "Acciones"
+            },
+            cancelButton: "Cancelar"
+        }
+    };
+
+    const t = isEnglish ? translations.en : translations.es;
+
     const filteredOrders = mockOrders.filter(order => order.status === activeTab);
+
+    const getStatusText = (status: OrderStatus) => {
+        if (isEnglish) return status;
+        const statusMap: Record<OrderStatus, string> = {
+            Active: "Activa",
+            Filled: "Ejecutada",
+            Cancelled: "Cancelada"
+        };
+        return statusMap[status] || status;
+    };
+
+    const getTabText = (tab: OrderStatus) => {
+        if (isEnglish) return tab;
+        const tabMap: Record<OrderStatus, string> = {
+            Active: "Activa",
+            Filled: "Ejecutada",
+            Cancelled: "Cancelada"
+        };
+        return tabMap[tab] || tab;
+    };
 
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
-                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Limit Orders</h1>
-                <p className="text-[#A0A0A0] text-base font-normal leading-normal">Manage your pending, filled, and cancelled limit orders.</p>
+                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">{t.title}</h1>
+                <p className="text-[#A0A0A0] text-base font-normal leading-normal">{t.subtitle}</p>
             </div>
-            
+
             <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
                 <div className="border-b border-[#292938]">
                     <nav className="-mb-px flex gap-6" aria-label="Tabs">
@@ -41,12 +103,12 @@ export const LimitOrders: React.FC = () => {
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                                    activeTab === tab 
-                                        ? 'border-primary text-primary' 
+                                    activeTab === tab
+                                        ? 'border-primary text-primary'
                                         : 'border-transparent text-[#A0A0A0] hover:text-white hover:border-gray-500'
                                 }`}
                             >
-                                {tab}
+                                {getTabText(tab)}
                             </button>
                         ))}
                     </nav>
@@ -56,12 +118,12 @@ export const LimitOrders: React.FC = () => {
                     <table className="min-w-full divide-y divide-[#292938]">
                         <thead className="bg-[#121212]">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Pair</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Type</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Price</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Amount</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Status</th>
-                                {activeTab === 'Active' && <th scope="col" className="relative px-6 py-3"><span className="sr-only">Actions</span></th>}
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.pair}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.type}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.price}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.amount}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.status}</th>
+                                {activeTab === 'Active' && <th scope="col" className="relative px-6 py-3"><span className="sr-only">{t.headers.actions}</span></th>}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-[#292938]">
@@ -73,12 +135,12 @@ export const LimitOrders: React.FC = () => {
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-[#EAEAEA]">{order.amount}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[order.status]}`}>
-                                            {order.status}
+                                            {getStatusText(order.status)}
                                         </span>
                                     </td>
                                     {activeTab === 'Active' && (
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button className="text-red-400 hover:text-red-500">Cancel</button>
+                                            <button className="text-red-400 hover:text-red-500">{t.cancelButton}</button>
                                         </td>
                                     )}
                                 </tr>
