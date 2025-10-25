@@ -54,7 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, setPage, isOpen, 
             <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center gap-3 px-3 text-primary">
                     <LogoIcon />
-                    <span className="text-lg font-black tracking-tighter text-white">MEME<span className="text-primary">SNIPER</span></span>
+                    <span className="text-lg font-black tracking-tighter text-white">ARGOM<span className="text-primary">VENOM</span></span>
                 </div>
                 <button onClick={onClose} className="lg:hidden text-gray-400 hover:text-white">
                     <span className="material-symbols-outlined">close</span>
