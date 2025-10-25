@@ -2,6 +2,7 @@ import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { PlayStoreButton } from './ui/play-store-button';
 import { AppStoreButton } from './ui/app-store-button';
+import { isElectron } from '../src/utils/platform';
 
 const FaqItem: React.FC<{ question: string; children: React.ReactNode }> = ({ question, children }) => (
     <div className="border-b border-[#3c3c53] py-6">
@@ -45,7 +46,7 @@ export const Help: React.FC = () => {
             },
             faq6: {
                 question: "How do I download the client?",
-                answer: "To download the ARGOM-VENOM client, click the download button that appears in this section. The client will give you access to all the bot's features directly from your device."
+                answer: "To download the ARGOM-VENOM desktop client, click on the \"Download Client\" button below. The desktop version provides the same features as the web version with the added benefit of running locally on your device for better performance and privacy."
             }
         },
         es: {
@@ -79,12 +80,21 @@ export const Help: React.FC = () => {
             },
             faq6: {
                 question: "¿Cómo descargo el cliente?",
-                answer: "Para descargar el cliente de ARGOM-VENOM, haz clic en el botón de descarga que aparece en esta sección. El cliente te dará acceso a todas las funcionalidades del bot directamente desde tu dispositivo."
+                answer: "Para descargar el cliente de escritorio de ARGOM-VENOM, haz clic en el botón \"Descargar Cliente\" que aparece abajo. La versión de escritorio ofrece las mismas funcionalidades que la versión web con el beneficio adicional de ejecutarse localmente en tu dispositivo para mejor rendimiento y privacidad."
             }
         }
     };
 
     const t = isEnglish ? translations.en : translations.es;
+
+    const handleDownload = () => {
+        // Detectar la plataforma del usuario y redirigir a los releases
+        const userAgent = navigator.userAgent.toLowerCase();
+        const releaseUrl = 'https://github.com/EdwinEstrella/ARGOM-VENOM/releases/latest';
+
+        // Abrir la página de releases en una nueva pestaña
+        window.open(releaseUrl, '_blank');
+    };
 
     return (
         <div className="flex flex-col gap-8">
@@ -127,9 +137,15 @@ export const Help: React.FC = () => {
                     <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-bold hover:bg-white/20">
                         {t.telegramButton}
                     </button>
-                     <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-green-500/20 text-green-400 text-sm font-bold hover:bg-green-500/30">
-                        {t.downloadClientButton}
-                    </button>
+                     {!isElectron() && (
+                        <button
+                            onClick={handleDownload}
+                            className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-green-500/20 text-green-400 text-sm font-bold hover:bg-green-500/30"
+                        >
+                            <span className="material-symbols-outlined text-base">download</span>
+                            {t.downloadClientButton}
+                        </button>
+                    )}
                     <div className="flex items-center gap-2">
                         <PlayStoreButton
                             className="border-[#3c3c53] bg-transparent hover:bg-[#292938] hover:border-primary text-gray-300 hover:text-white"
