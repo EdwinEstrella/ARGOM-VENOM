@@ -1,0 +1,5 @@
+{
+  "name": "ARGOM-VENOM",
+  "description": "An interface to set up and manage automated memecoin purchasing strategies. Allows users to define investment details, purchase triggers, and transaction settings to automate their trading.",
+  "requestFramePermissions": []
+}
