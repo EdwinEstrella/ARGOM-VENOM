@@ -23,11 +23,7 @@ export const Positions: React.FC = () => {
 
     return (
         <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-2">
-                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Positions</h1>
-                <p className="text-[#A0A0A0] text-base font-normal leading-normal">Monitor your open trading positions.</p>
-            </div>
-
+   
             <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
                  <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-[#292938]">

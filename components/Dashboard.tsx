@@ -36,11 +36,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setPage, openSwapModal }) 
     
     return (
         <div className="flex flex-col gap-8">
-             <div className="flex flex-col gap-2">
-                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Dashboard</h1>
-                <p className="text-[#A0A0A0] text-base font-normal leading-normal">Welcome back! Here's an overview of your portfolio.</p>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 <StatCard title="Portfolio Value" value="$18,874.58" change="+3.2%" changeType="positive" />
                 <StatCard title="24h P&L" value="$589.12" change="+3.2%" changeType="positive" />
                 <StatCard title="Total P&L" value="$2,130.90" change="+12.7%" changeType="positive" />
