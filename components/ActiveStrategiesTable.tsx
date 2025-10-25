@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { StrategyStatus, type Strategy } from '../types';
 
 interface ActiveStrategiesTableProps {
@@ -13,19 +14,64 @@ const statusColors: Record<StrategyStatus, string> = {
 };
 
 export const ActiveStrategiesTable: React.FC<ActiveStrategiesTableProps> = ({ strategies, onCancel }) => {
+    const { isEnglish } = useLanguage();
+
+    const translations = {
+        en: {
+            title: "Active Strategies",
+            headers: {
+                status: "Status",
+                targetCoin: "Target Coin",
+                condition: "Condition",
+                amount: "Amount",
+                actions: "Actions"
+            },
+            emptyState: "You have no active strategies.",
+            cancelButton: "Cancel"
+        },
+        es: {
+            title: "Estrategias Activas",
+            headers: {
+                status: "Estado",
+                targetCoin: "Token Objetivo",
+                condition: "Condición",
+                amount: "Monto",
+                actions: "Acciones"
+            },
+            emptyState: "No tienes estrategias activas.",
+            cancelButton: "Cancelar"
+        }
+    };
+
+    const t = isEnglish ? translations.en : translations.es;
+
+    const getStatusText = (status: StrategyStatus) => {
+        if (isEnglish) {
+            return status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
+        const statusTranslations: Record<StrategyStatus, string> = {
+            [StrategyStatus.Active]: "Activo",
+            [StrategyStatus.Executing]: "Ejecutando",
+            [StrategyStatus.Completed]: "Completado"
+        };
+
+        return statusTranslations[status] || status;
+    };
+
     return (
         <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
-            <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">Active Strategies</h2>
+            <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em]">{t.title}</h2>
             <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-[#292938]">
                     <thead className="bg-[#121212]">
                         <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Status</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Target Coin</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Condition</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Amount</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.status}</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.targetCoin}</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.condition}</th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.headers.amount}</th>
                             <th scope="col" className="relative px-6 py-3">
-                                <span className="sr-only">Actions</span>
+                                <span className="sr-only">{t.headers.actions}</span>
                             </th>
                         </tr>
                     </thead>
@@ -33,7 +79,7 @@ export const ActiveStrategiesTable: React.FC<ActiveStrategiesTableProps> = ({ st
                         {strategies.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="px-6 py-12 text-center text-sm text-[#A0A0A0]">
-                                    You have no active strategies.
+                                    {t.emptyState}
                                 </td>
                             </tr>
                         ) : (
@@ -41,7 +87,7 @@ export const ActiveStrategiesTable: React.FC<ActiveStrategiesTableProps> = ({ st
                                 <tr key={strategy.id}>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[strategy.status]}`}>
-                                            {strategy.status}
+                                            {getStatusText(strategy.status)}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-mono">{strategy.targetCoin}</td>
@@ -49,7 +95,7 @@ export const ActiveStrategiesTable: React.FC<ActiveStrategiesTableProps> = ({ st
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white font-medium">{strategy.amount}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         {strategy.status === StrategyStatus.Active && (
-                                            <button onClick={() => onCancel(strategy.id)} className="text-red-400 hover:text-red-500">Cancel</button>
+                                            <button onClick={() => onCancel(strategy.id)} className="text-red-400 hover:text-red-500">{t.cancelButton}</button>
                                         )}
                                     </td>
                                 </tr>

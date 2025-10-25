@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { Asset, Activity, Page, OrderType } from '../types';
-import { SwapModal } from './modals/SwapModal';
 
 const mockAssets: Asset[] = [
     { icon: 'SOL', name: 'Solana', ticker: 'SOL', balance: 25.4, price: 175.25, value: 4451.35, change24h: 2.5 },
@@ -29,7 +28,7 @@ const StatCard: React.FC<{ title: string; value: string; change?: string; change
 
 interface DashboardProps {
     setPage: (page: Page) => void;
-    openSwapModal: () => void;
+    openSwapModal: (type: OrderType) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ setPage, openSwapModal }) => {
@@ -55,7 +54,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setPage, openSwapModal }) 
                                     <p className="text-sm text-[#A0A0A0]">Create a new strategy</p>
                                 </div>
                             </button>
-                             <button onClick={openSwapModal} className="flex items-center gap-3 rounded-lg bg-[#292938] p-4 text-left hover:bg-[#3c3c53] transition-colors">
+                             <button onClick={() => openSwapModal('Buy')} className="flex items-center gap-3 rounded-lg bg-[#292938] p-4 text-left hover:bg-[#3c3c53] transition-colors">
                                 <span className="material-symbols-outlined text-primary text-2xl">swap_horiz</span>
                                 <div>
                                     <p className="font-bold text-white">Swap Tokens</p>
