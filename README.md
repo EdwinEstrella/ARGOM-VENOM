@@ -7,7 +7,7 @@ Bienvenido a Venom Bot, un sistema avanzado de trading automatizado especializad
 ### 1. **Interfaz Principal - Layout**
 
 #### **Barra Lateral Izquierda**
-- **Logo MEMESNIPER**: Identificador del bot
+- **Logo Argom Venom**: Identificador del bot
 - **Botones Rápidos Superiores**:
   - **Buy**: Botón verde para comprar rápidamente
   - **Sell**: Botón rojo para vender rápidamente
