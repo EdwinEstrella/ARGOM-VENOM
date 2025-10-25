@@ -22,12 +22,12 @@ function createWindow() {
   });
 
   // En desarrollo, carga desde Vite dev server
-  // En producción, carga el build
+  // En producción, carga el build con HTML específico para Electron
   if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:3000');
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    mainWindow.loadFile(path.join(__dirname, '../dist/electron.html'));
   }
 
   mainWindow.on('closed', () => {

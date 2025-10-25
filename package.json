@@ -3,15 +3,18 @@
   "private": true,
   "version": "1.0.0",
   "description": "ARGOM VENOM - Trading Dashboard",
-  "main": "dist-electron/main.js",
+  "main": "dist-electron/main.cjs",
   "author": "Edwin Estrella",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "dev:electron": "cross-env ELECTRON=true vite",
-    "build": "tsc && vite build",
-    "build:electron": "npm run build && electron-builder",
+    "build": "vite build",
+    "build:electron": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && electron-builder",
+    "build:installer": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && npm run pack && cp LICENSE release/win-unpacked/ && node create-installer.js",
+    "build:frontend": "vite build",
+    "build:backend": "tsc -p electron",
     "preview": "vite preview",
     "electron": "electron .",
     "pack": "electron-builder --dir",
@@ -34,6 +37,7 @@
     "cross-env": "^10.1.0",
     "electron": "^38.4.0",
     "electron-builder": "^26.0.12",
+    "electron-winstaller": "^5.4.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.16",
     "typescript": "~5.8.2",
@@ -47,6 +51,7 @@
       "output": "release",
       "buildResources": "public"
     },
+    "publish": null,
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
@@ -83,7 +88,10 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "ARGOM VENOM"
+      "shortcutName": "ARGOM VENOM",
+      "installerIcon": "public/icon.ico",
+      "uninstallerIcon": "public/icon.ico",
+      "installerHeaderIcon": "public/icon.ico"
     }
   }
 }
