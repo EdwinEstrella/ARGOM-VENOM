@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { PlayStoreButton } from './ui/play-store-button';
+import { AppStoreButton } from './ui/app-store-button';
 
 const FaqItem: React.FC<{ question: string; children: React.ReactNode }> = ({ question, children }) => (
     <div className="border-b border-[#3c3c53] py-6">
@@ -118,7 +120,7 @@ export const Help: React.FC = () => {
              <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
                  <h2 className="text-white text-xl font-bold">{t.contactTitle}</h2>
                  <p className="text-[#A0A0A0]">{t.contactText}</p>
-                 <div className="flex gap-4 mt-2">
+                 <div className="flex gap-4 mt-2 flex-wrap">
                      <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold hover:bg-primary/30">
                         {t.discordButton}
                     </button>
@@ -128,6 +130,14 @@ export const Help: React.FC = () => {
                      <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-green-500/20 text-green-400 text-sm font-bold hover:bg-green-500/30">
                         {t.downloadClientButton}
                     </button>
+                    <div className="flex items-center gap-2">
+                        <PlayStoreButton
+                            className="border-[#3c3c53] bg-transparent hover:bg-[#292938] hover:border-primary text-gray-300 hover:text-white"
+                        />
+                        <AppStoreButton
+                            className="border-[#3c3c53] bg-transparent hover:bg-[#292938] hover:border-primary text-gray-300 hover:text-white"
+                        />
+                    </div>
                  </div>
             </div>
         </div>
