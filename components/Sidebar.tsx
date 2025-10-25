@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import type { Page, OrderType } from '../types';
 import { LogoIcon } from './icons/LogoIcon';
 
@@ -25,20 +26,6 @@ const NavItem: React.FC<NavItemProps> = ({ icon, label, pageName, currentPage, s
     );
 };
 
-const navItems = [
-    { icon: 'dashboard', label: 'Dashboard', page: 'dashboard' },
-    { icon: 'database', label: 'Positions', page: 'positions' },
-    { icon: 'rule', label: 'Limit Orders', page: 'limit-orders' },
-    { icon: 'avg_pace', label: 'DCA Orders', page: 'dca-orders' },
-    { icon: 'person_add', label: 'Copy Trade', page: 'copy-trade' },
-];
-
-const tradeItems = [
-    { icon: 'bolt', label: 'LP Sniper', page: 'lp-sniper' },
-    { icon: 'smart_toy', label: 'Auto-Buy Bot', page: 'auto-buy' },
-    { icon: 'swap_horiz', label: 'Bridge', page: 'bridge' },
-    { icon: 'account_balance_wallet', label: 'Withdraw', page: 'withdraw' },
-];
 
 interface SidebarProps {
     currentPage: Page;
@@ -49,6 +36,49 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPage, setPage, isOpen, onClose, openSwapModal }) => {
+    const { isEnglish } = useLanguage();
+
+    const navLabels = isEnglish ? {
+        dashboard: 'Dashboard',
+        positions: 'Positions',
+        'limit-orders': 'Limit Orders',
+        'dca-orders': 'DCA Orders',
+        'copy-trade': 'Copy Trade',
+        'lp-sniper': 'LP Sniper',
+        'auto-buy': 'Auto-Buy Bot',
+        bridge: 'Bridge',
+        withdraw: 'Withdraw',
+        settings: 'Settings',
+        help: 'Help'
+    } : {
+        dashboard: 'Panel',
+        positions: 'Posiciones',
+        'limit-orders': 'Órdenes Límite',
+        'dca-orders': 'Órdenes DCA',
+        'copy-trade': 'Copy Trading',
+        'lp-sniper': 'LP Sniper',
+        'auto-buy': 'Bot Auto-Compra',
+        bridge: 'Bridge',
+        withdraw: 'Retirar',
+        settings: 'Configuración',
+        help: 'Ayuda'
+    };
+
+    const navItems = [
+        { icon: 'dashboard', label: navLabels.dashboard, page: 'dashboard' },
+        { icon: 'database', label: navLabels.positions, page: 'positions' },
+        { icon: 'rule', label: navLabels['limit-orders'], page: 'limit-orders' },
+        { icon: 'avg_pace', label: navLabels['dca-orders'], page: 'dca-orders' },
+        { icon: 'person_add', label: navLabels['copy-trade'], page: 'copy-trade' },
+    ];
+
+    const tradeItems = [
+        { icon: 'bolt', label: navLabels['lp-sniper'], page: 'lp-sniper' },
+        { icon: 'smart_toy', label: navLabels['auto-buy'], page: 'auto-buy' },
+        { icon: 'swap_horiz', label: navLabels.bridge, page: 'bridge' },
+        { icon: 'account_balance_wallet', label: navLabels.withdraw, page: 'withdraw' },
+    ];
+
     return (
         <aside className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-[#292938] bg-[#121212] p-4 transform transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
             <div className="flex h-16 items-center justify-between">
@@ -85,8 +115,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, setPage, isOpen, 
                 </div>
             </nav>
             <div className="mt-auto flex flex-col gap-1">
-                 <NavItem icon="settings" label="Settings" pageName="settings" currentPage={currentPage} setPage={setPage} />
-                 <NavItem icon="help" label="Help" pageName="help" currentPage={currentPage} setPage={setPage} />
+                 <NavItem icon="settings" label={navLabels.settings} pageName="settings" currentPage={currentPage} setPage={setPage} />
+                 <NavItem icon="help" label={navLabels.help} pageName="help" currentPage={currentPage} setPage={setPage} />
             </div>
         </aside>
     );

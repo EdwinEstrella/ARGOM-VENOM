@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { Dashboard } from './components/Dashboard';
@@ -93,28 +94,30 @@ const App: React.FC = () => {
     }
 
     return (
-        <div className="flex h-screen bg-[#0D0D0F] text-white overflow-hidden">
-            <Sidebar 
-                currentPage={page} 
-                setPage={handleSetPage}
-                isOpen={isSidebarOpen}
-                onClose={() => setIsSidebarOpen(false)}
-                openSwapModal={openSwapModal}
-            />
-            <div className="flex flex-1 flex-col overflow-y-auto">
-                <Header pageTitle={page} onMenuClick={() => setIsSidebarOpen(true)} />
-                <main className="flex-1 p-4 md:p-8">
-                    {renderPage()}
-                </main>
-            </div>
-            {isSwapModalOpen && (
-                <SwapModal 
-                    isOpen={isSwapModalOpen} 
-                    onClose={closeSwapModal} 
-                    type={swapModalType}
+        <LanguageProvider>
+            <div className="flex h-screen bg-[#0D0D0F] text-white overflow-hidden">
+                <Sidebar
+                    currentPage={page}
+                    setPage={handleSetPage}
+                    isOpen={isSidebarOpen}
+                    onClose={() => setIsSidebarOpen(false)}
+                    openSwapModal={openSwapModal}
                 />
-            )}
-        </div>
+                <div className="flex flex-1 flex-col overflow-y-auto">
+                    <Header pageTitle={page} onMenuClick={() => setIsSidebarOpen(true)} />
+                    <main className="flex-1 p-4 md:p-8">
+                        {renderPage()}
+                    </main>
+                </div>
+                {isSwapModalOpen && (
+                    <SwapModal
+                        isOpen={isSwapModalOpen}
+                        onClose={closeSwapModal}
+                        type={swapModalType}
+                    />
+                )}
+            </div>
+        </LanguageProvider>
     );
 };
 

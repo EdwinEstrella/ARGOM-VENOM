@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { Position } from '../types';
 
 const mockPositions: Position[] = [
@@ -9,12 +10,43 @@ const mockPositions: Position[] = [
 ];
 
 export const Positions: React.FC = () => {
+    const { isEnglish } = useLanguage();
+
+    const translations = {
+        en: {
+            tableHeaders: {
+                pair: "Pair",
+                size: "Size",
+                entryPrice: "Entry Price",
+                currentPrice: "Current Price",
+                pnl: "P&L",
+                pnlPercent: "P&L (%)",
+                actions: "Actions"
+            },
+            closeButton: "Close"
+        },
+        es: {
+            tableHeaders: {
+                pair: "Par",
+                size: "Tamaño",
+                entryPrice: "Precio Entrada",
+                currentPrice: "Precio Actual",
+                pnl: "P&L",
+                pnlPercent: "P&L (%)",
+                actions: "Acciones"
+            },
+            closeButton: "Cerrar"
+        }
+    };
+
+    const t = isEnglish ? translations.en : translations.es;
+
     const PnlIndicator: React.FC<{ value: number }> = ({ value }) => (
         <span className={value >= 0 ? 'text-green-400' : 'text-red-400'}>
             {value >= 0 ? '+' : ''}{value.toFixed(2)}%
         </span>
     );
-    
+
     const PnlValueIndicator: React.FC<{ value: number }> = ({ value }) => (
         <span className={value >= 0 ? 'text-green-400' : 'text-red-400'}>
             {value >= 0 ? '+' : ''}${value.toFixed(2)}
@@ -23,20 +55,20 @@ export const Positions: React.FC = () => {
 
     return (
         <div className="flex flex-col gap-8">
-   
+
             <div className="flex flex-col gap-4 rounded-xl border border-[#292938] bg-[#1A1A1D] p-6">
                  <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-[#292938]">
                         <thead className="bg-[#121212]">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Pair</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Size</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Entry Price</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">Current Price</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">P&L</th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">P&L (%)</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.tableHeaders.pair}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.tableHeaders.size}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.tableHeaders.entryPrice}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.tableHeaders.currentPrice}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.tableHeaders.pnl}</th>
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#A0A0A0] uppercase tracking-wider">{t.tableHeaders.pnlPercent}</th>
                                 <th scope="col" className="relative px-6 py-3">
-                                    <span className="sr-only">Actions</span>
+                                    <span className="sr-only">{t.tableHeaders.actions}</span>
                                 </th>
                             </tr>
                         </thead>
@@ -50,7 +82,7 @@ export const Positions: React.FC = () => {
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-bold"><PnlValueIndicator value={position.pnl} /></td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-bold"><PnlIndicator value={position.pnlPercent} /></td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button className="text-primary hover:text-primary/80">Close</button>
+                                        <button className="text-primary hover:text-primary/80">{t.closeButton}</button>
                                     </td>
                                 </tr>
                             ))}

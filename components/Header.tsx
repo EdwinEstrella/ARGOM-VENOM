@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeaderProps {
     pageTitle: string;
@@ -6,7 +7,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick }) => {
-    const [isEnglish, setIsEnglish] = useState(true);
+    const { isEnglish, setIsEnglish } = useLanguage();
 
     return (
         <header className="flex h-20 shrink-0 items-center justify-between border-b border-[#292938] px-4 md:px-8">
