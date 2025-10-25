@@ -12,7 +12,8 @@
     "dev:electron": "cross-env ELECTRON=true vite",
     "build": "vite build",
     "build:electron": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && electron-builder",
-    "build:installer": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && npm run pack && cp LICENSE release/win-unpacked/ && node create-installer.js",
+    "build:installer": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && ren dist-electron\\preload.js preload.cjs && npm run pack && cp LICENSE release/win-unpacked/ && node create-installer.js",
+    "build:installer:fixed": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && npm run pack && cp LICENSE release/win-unpacked/ && node create-installer.js && echo \"\n📝 NOTA: Para evitar problemas con Windows Defender:\n1. Abre Windows Defender Security Center\n2. Ve a Protección contra virus y amenazas\n3. Administra la configuración (Configuración de exclusiones)\n4. Agrega exclusiones para:\n   - La carpeta de instalaci\u0003n\n   - El archivo ARGOM-VENOM-Setup.exe\n   - El ejecutable ARGOM VENOM.exe\n\"",
     "build:frontend": "vite build",
     "build:backend": "tsc -p electron",
     "preview": "vite preview",
@@ -52,10 +53,13 @@
       "buildResources": "public"
     },
     "publish": null,
+    "compression": "normal",
+    "removePackageScripts": true,
     "files": [
       "dist/**/*",
       "dist-electron/**/*",
-      "package.json"
+      "package.json",
+      "public/venom.ico"
     ],
     "win": {
       "target": [
@@ -66,22 +70,8 @@
           ]
         }
       ],
-      "icon": "public/icon.png"
-    },
-    "mac": {
-      "target": [
-        "dmg"
-      ],
-      "icon": "public/icon.icns",
-      "category": "public.app-category.productivity"
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ],
-      "icon": "public/icon.png",
-      "category": "Utility"
+      "icon": "public/venom.ico",
+      "requestedExecutionLevel": "asInvoker"
     },
     "nsis": {
       "oneClick": false,
@@ -89,9 +79,8 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "ARGOM VENOM",
-      "installerIcon": "public/icon.ico",
-      "uninstallerIcon": "public/icon.ico",
-      "installerHeaderIcon": "public/icon.ico"
+      "installerIcon": "public/venom.ico",
+      "uninstallerIcon": "public/venom.ico"
     }
   }
 }

@@ -28,7 +28,10 @@ async function createInstaller() {
       title: 'ARGOM VENOM',
       license: path.join(__dirname, 'LICENSE'),
       noMsi: true,
-      setupExe: 'ARGOM-VENOM-Setup.exe'
+      setupExe: 'ARGOM-VENOM-Setup.exe',
+      setupIcon: path.join(__dirname, 'public', 'venom.ico'),
+      iconUrl: 'https://raw.githubusercontent.com/EdwinEstrella/ARGOM-VENOM/main/public/venom.ico',
+      skipUpdateIcon: true
     });
 
     console.log('✅ Instalador creado exitosamente!');
