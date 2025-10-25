@@ -20,6 +20,7 @@ export const Help: React.FC = () => {
             contactText: "If you can't find the answer here, please reach out to our support team on Telegram or Discord for assistance.",
             discordButton: "Contact on Discord",
             telegramButton: "Join Telegram",
+            downloadClientButton: "Download Client",
             faq1: {
                 question: "How does the Auto-Buy bot work?",
                 answer: "The Auto-Buy bot allows you to set up strategies to automatically purchase memecoins when certain conditions are met. You can configure the amount to invest, the target coin's contract address, and a trigger condition like a price dip, volume spike, or when new liquidity is added."
@@ -39,6 +40,10 @@ export const Help: React.FC = () => {
             faq5: {
                 question: "Are there any risks involved?",
                 answer: "<strong>Yes, absolutely.</strong> Trading memecoins is extremely high-risk. Prices are incredibly volatile, and many projects can result in a total loss of investment (a \"rug pull\"). This tool is for advanced users who understand the risks. Never invest more than you are willing to lose."
+            },
+            faq6: {
+                question: "How do I download the client?",
+                answer: "To download the ARGOM-VENOM client, click the download button that appears in this section. The client will give you access to all the bot's features directly from your device."
             }
         },
         es: {
@@ -49,6 +54,7 @@ export const Help: React.FC = () => {
             contactText: "Si no encuentras la respuesta aquí, por favor contacta a nuestro equipo de soporte en Telegram o Discord para asistencia.",
             discordButton: "Contactar en Discord",
             telegramButton: "Unirse a Telegram",
+            downloadClientButton: "Descargar Cliente",
             faq1: {
                 question: "¿Cómo funciona el bot Auto-Buy?",
                 answer: "El bot Auto-Buy te permite configurar estrategias para comprar automáticamente memecoins cuando se cumplan ciertas condiciones. Puedes configurar el monto a invertir, la dirección del contrato del token objetivo y una condición de activación como una caída de precio, aumento de volumen o cuando se añada nueva liquidez."
@@ -68,6 +74,10 @@ export const Help: React.FC = () => {
             faq5: {
                 question: "¿Hay riesgos involucrados?",
                 answer: "<strong>Sí, absolutamente.</strong> Trading memecoins es extremadamente riesgoso. Los precios son increíblemente volátiles y muchos proyectos pueden resultar en una pérdida total de la inversión (un \"rug pull\"). Esta herramienta es para usuarios avanzados que entienden los riesgos. Nunca inviertas más de lo que estás dispuesto a perder."
+            },
+            faq6: {
+                question: "¿Cómo descargo el cliente?",
+                answer: "Para descargar el cliente de ARGOM-VENOM, haz clic en el botón de descarga que aparece en esta sección. El cliente te dará acceso a todas las funcionalidades del bot directamente desde tu dispositivo."
             }
         }
     };
@@ -99,6 +109,9 @@ export const Help: React.FC = () => {
                      <FaqItem question={t.faq5.question}>
                         <p dangerouslySetInnerHTML={{ __html: t.faq5.answer }}></p>
                     </FaqItem>
+                    <FaqItem question={t.faq6.question}>
+                        <p>{t.faq6.answer}</p>
+                    </FaqItem>
                 </div>
             </div>
 
@@ -111,6 +124,9 @@ export const Help: React.FC = () => {
                     </button>
                     <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-bold hover:bg-white/20">
                         {t.telegramButton}
+                    </button>
+                     <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-green-500/20 text-green-400 text-sm font-bold hover:bg-green-500/30">
+                        {t.downloadClientButton}
                     </button>
                  </div>
             </div>
