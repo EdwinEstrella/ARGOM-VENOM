@@ -71,7 +71,8 @@
         }
       ],
       "icon": "public/venom.ico",
-      "requestedExecutionLevel": "asInvoker"
+      "requestedExecutionLevel": "asInvoker",
+      "iconUrl": "public/venom.ico"
     },
     "nsis": {
       "oneClick": false,

@@ -48,6 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, setPage, isOpen, 
         'auto-buy': 'Auto-Buy Bot',
         bridge: 'Bridge',
         withdraw: 'Withdraw',
+        'telegram-scraper': 'TeleScraper',
         settings: 'Settings',
         help: 'Help'
     } : {
@@ -60,6 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, setPage, isOpen, 
         'auto-buy': 'Bot Auto-Compra',
         bridge: 'Bridge',
         withdraw: 'Retirar',
+        'telegram-scraper': 'TeleScraper',
         settings: 'Configuración',
         help: 'Ayuda'
     };
@@ -73,6 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPage, setPage, isOpen, 
     ];
 
     const tradeItems = [
+        { icon: 'chat', label: navLabels['telegram-scraper'], page: 'telegram-scraper' },
         { icon: 'bolt', label: navLabels['lp-sniper'], page: 'lp-sniper' },
         { icon: 'smart_toy', label: navLabels['auto-buy'], page: 'auto-buy' },
         { icon: 'swap_horiz', label: navLabels.bridge, page: 'bridge' },

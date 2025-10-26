@@ -20,6 +20,31 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   onDownloadError: (callback: (error: string) => void) => {
     ipcRenderer.on('download-error', (_, error) => callback(error));
+  },
+
+  // Telegram Scraper methods
+  startTelegramScraper: (config: any) => {
+    return ipcRenderer.invoke('start-telegram-scraper', config);
+  },
+
+  stopTelegramScraper: () => {
+    return ipcRenderer.invoke('stop-telegram-scraper');
+  },
+
+  onTelegramMessage: (callback: (message: any) => void) => {
+    ipcRenderer.on('telegram-message', (_, message) => callback(message));
+  },
+
+  onTelegramLog: (callback: (log: string) => void) => {
+    ipcRenderer.on('telegram-log', (_, log) => callback(log));
+  },
+
+  onTelegramError: (callback: (error: string) => void) => {
+    ipcRenderer.on('telegram-error', (_, error) => callback(error));
+  },
+
+  onTelegramDisconnected: (callback: () => void) => {
+    ipcRenderer.on('telegram-disconnected', () => callback());
   }
 });
 
@@ -33,6 +58,12 @@ declare global {
       onDownloadProgress: (callback: (progress: number) => void) => void;
       onDownloadComplete: (callback: (filepath: string) => void) => void;
       onDownloadError: (callback: (error: string) => void) => void;
+      startTelegramScraper: (config: any) => Promise<{ success: boolean; message?: string; error?: string }>;
+      stopTelegramScraper: () => Promise<{ success: boolean; message?: string; error?: string }>;
+      onTelegramMessage: (callback: (message: any) => void) => void;
+      onTelegramLog: (callback: (log: string) => void) => void;
+      onTelegramError: (callback: (error: string) => void) => void;
+      onTelegramDisconnected: (callback: () => void) => void;
     };
   }
 }

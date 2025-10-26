@@ -10,6 +10,7 @@ import { DCAOrders } from './components/DCAOrders';
 import { NewPairs } from './components/NewPairs';
 import { Bridge } from './components/Bridge';
 import { Withdraw } from './components/Withdraw';
+import { TelegramScraper } from './components/TelegramScraper';
 import { Settings } from './components/Settings';
 import { Help } from './components/Help';
 import { SwapModal } from './components/modals/SwapModal';
@@ -104,6 +105,15 @@ const App: React.FC = () => {
             return <Bridge />;
         case 'withdraw':
             return <Withdraw />;
+        case 'telegram-scraper':
+            return <TelegramScraper config={{
+                apiId: '',
+                apiHash: '',
+                phone: '',
+                groups: [],
+                keywords: [],
+                isActive: false
+            }} onConfigChange={() => {}} />;
         case 'settings':
             return <Settings />;
         case 'help':

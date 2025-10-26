@@ -49,9 +49,10 @@ export interface SettingsType {
     confirmTrades: boolean;
     defaultBuySlippage: number;
     defaultSellSlippage: number;
+    telegramConfig?: TelegramConfig;
 }
 
-export type Page = 
+export type Page =
     | 'dashboard'
     | 'positions'
     | 'limit-orders'
@@ -61,6 +62,7 @@ export type Page =
     | 'auto-buy'
     | 'bridge'
     | 'withdraw'
+    | 'telegram-scraper'
     | 'settings'
     | 'help';
 
@@ -92,4 +94,21 @@ export interface NewPair {
     pair: string;
     age: string;
     liquidity: number;
+}
+
+export interface TelegramConfig {
+    apiId: string;
+    apiHash: string;
+    phone: string;
+    groups: string[];
+    keywords: string[];
+    isActive: boolean;
+}
+
+export interface TelegramMessage {
+    id: number;
+    group: string;
+    message: string;
+    timestamp: string;
+    processed: boolean;
 }
