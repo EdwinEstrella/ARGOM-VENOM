@@ -5,23 +5,30 @@ WORKDIR /app
 # Instalar dependencias necesarias para build
 RUN apk add --no-cache python3 make g++
 
-# Copiar archivos de configuración primero para caché de Docker
+# Configurar npm para evitar caché problemático
+RUN npm config set cache /tmp/.npm --global && \
+    npm config set fund false --global && \
+    npm config set audit false --global
+
+# Copiar archivos de configuración primero
 COPY package*.json ./
 
-# Limpiar caché antes de instalar dependencias
-RUN rm -rf node_modules/.cache || true
-
-# Instalar dependencias con overrides para evitar warnings
-RUN npm ci
+# Instalar dependencias de producción (sin caché que cause conflictos)
+RUN npm ci --omit=dev --no-audit --no-fund
 
 # Copiar el resto del código
 COPY . .
 
-# Construir la aplicación
-RUN npm run build
+# Instalar dependencias de desarrollo y construir
+RUN npm install --include=dev --no-audit --no-fund && \
+    npm run build
 
 # Limpiar dependencias de desarrollo después del build
 RUN npm prune --production
+
+# Limpiar cualquier caché residual
+RUN rm -rf /tmp/.npm || true && \
+    rm -rf node_modules/.cache || true
 
 # Exponer puerto
 EXPOSE 3000
