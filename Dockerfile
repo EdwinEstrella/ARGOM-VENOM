@@ -43,8 +43,8 @@ COPY --from=builder /app/dist /app/dist
 # Copiar configuración de Caddy
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Exponer puerto (Caddy usa 80 por defecto, pero Dokpley podría esperar 3000)
-EXPOSE 3000
+# Exponer puerto 80 (standard HTTP)
+EXPOSE 80
 
 # Comando de inicio para Caddy
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile", "--listen", ":3000"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]

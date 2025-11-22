@@ -1,3 +1,42 @@
+# Servidor por defecto para el container (escucha en todas las interfaces)
+:80 {
+    root * /app/dist
+    encode gzip zstd
+
+    # Servir archivos estáticos (ESTA LÍNEA ES CRÍTICA)
+    file_server
+
+    # Manejo de SPA - intentar servir archivo, si no existe devolver index.html
+    try_files {path} /index.html
+
+    # Headers de seguridad
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    # Cache para assets estáticos
+    @static {
+        path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.woff *.woff2
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    # No cache para HTML
+    @html {
+        path *.html
+    }
+    header @html Cache-Control "no-cache, no-store, must-revalidate"
+
+    # Logs solo para errores
+    log {
+        output stdout
+        format json
+        level ERROR
+    }
+}
+
 # Dominio principal
 argom.ibpau.rest {
     root * /app/dist
