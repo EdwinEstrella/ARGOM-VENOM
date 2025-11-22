@@ -1,14 +1,16 @@
 [variables]
 NIXPACKS_SPA_OUTPUT_DIR = "dist"
 NODE_VERSION = "22"
+NPM_CONFIG_CACHE = "/tmp/.npm"
 
 [phases.install]
-cmds = ["npm ci --omit=dev --no-audit --no-fund"]
+cmds = ["npm ci --omit=dev --no-audit --no-fund --cache=/tmp/.npm"]
 
 [phases.build]
 cmds = [
   "rm -rf node_modules/.cache || true",
-  "npm ci --include=dev",
+  "rm -rf /tmp/.npm || true",
+  "npm ci --include=dev --cache=/tmp/.npm",
   "npm run build"
 ]
 
