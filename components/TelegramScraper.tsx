@@ -49,6 +49,70 @@ export const TelegramScraper: React.FC<TelegramScraperProps> = ({ config, onConf
         }
     }, []);
 
+    // Cargar y sincronizar estado del Telegram Scraper con la base de datos
+    useEffect(() => {
+        const loadTelegramState = async () => {
+            try {
+                // Cargar configuración desde la base de datos
+                const response = await fetch('/api/auth/telegram/config');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        // Actualizar el estado local con el valor de la base de datos
+                        if (config.isActive !== data.isActive) {
+                            onConfigChange({
+                                ...config,
+                                isActive: data.isActive
+                            });
+                        }
+                        console.log('Estado del Telegram Scraper cargado desde la base de datos:', data.isActive);
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando estado del Telegram Scraper:', error);
+            }
+        };
+
+        // Cargar estado al montar el componente
+        loadTelegramState();
+
+        // Sincronizar estado cada 30 segundos
+        const interval = setInterval(loadTelegramState, 30000);
+
+        return () => clearInterval(interval);
+    }, [config.isActive, onConfigChange]);
+
+    // Guardar estado en la base de datos cuando cambie
+    useEffect(() => {
+        const saveTelegramState = async () => {
+            try {
+                const response = await fetch('/api/auth/telegram/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        isActive: config.isActive
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        console.log('Estado del Telegram Scraper guardado en la base de datos');
+                    }
+                }
+            } catch (error) {
+                console.error('Error guardando estado del Telegram Scraper:', error);
+            }
+        };
+
+        // Solo guardar si el estado es diferente
+        if (config.isActive !== undefined) {
+            saveTelegramState();
+        }
+    }, [config.isActive]);
+
     useEffect(() => {
         // Simulate receiving messages for demonstration
         if (config.isActive && isConnected) {

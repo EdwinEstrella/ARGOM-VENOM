@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
@@ -57,21 +57,28 @@ const PlaceholderPage: React.FC<{title: string, description: string}> = ({title,
 
 
 const App: React.FC = () => {
-    const [page, setPage] = useState<Page>('dashboard');
+    // Cargar página guardada del localStorage, por defecto 'dashboard'
+    const savedPage = (localStorage.getItem('argomVenomCurrentPage') as Page) || 'dashboard';
+    const [page, setPage] = useState<Page>(savedPage);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSwapModalOpen, setIsSwapModalOpen] = useState(false);
     const [swapModalType, setSwapModalType] = useState<OrderType>('Buy');
     const [strategies, setStrategies] = useState<Strategy[]>(mockStrategies);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<string>('');
-    const [telegramConfig, setTelegramConfig] = useState({
+    // Cargar configuración guardada del Telegram Scraper
+    const savedTelegramConfig = localStorage.getItem('argomVenomTelegramConfig');
+    const defaultTelegramConfig = {
         apiId: '34391980',
         apiHash: 'b827ab78baa27abb6ecfc09d08a499bf',
         phone: '+5492664553929',
         groups: ['CryptoEnfermosChat'],
         keywords: ['dexscreener.com', 'pump.fun', 'x.com', 'twitter.com', 'solana', 'token'],
         isActive: false
-    });
+    };
+    const [telegramConfig, setTelegramConfig] = useState(
+        savedTelegramConfig ? JSON.parse(savedTelegramConfig) : defaultTelegramConfig
+    );
 
     const handleCancelStrategy = (id: number) => {
         setStrategies(prev => prev.filter(s => s.id !== id));
@@ -91,7 +98,12 @@ const App: React.FC = () => {
         setIsAuthenticated(authenticated);
         setCurrentUser(user);
         if (authenticated) {
-            setPage('dashboard');
+            // Solo redirigir al dashboard si no hay una página guardada
+            const savedPage = localStorage.getItem('argomVenomCurrentPage') as Page;
+            if (!savedPage || savedPage === 'dashboard') {
+                setPage('dashboard');
+            }
+            // Si hay una página guardada, mantenerse en esa página
         }
     };
 
@@ -106,6 +118,16 @@ const App: React.FC = () => {
     const handleTelegramConfigChange = (config: any) => {
         setTelegramConfig(config);
     };
+
+    // Efecto para guardar la página actual en localStorage
+    useEffect(() => {
+        localStorage.setItem('argomVenomCurrentPage', page);
+    }, [page]);
+
+    // Efecto para guardar la configuración del Telegram Scraper en localStorage
+    useEffect(() => {
+        localStorage.setItem('argomVenomTelegramConfig', JSON.stringify(telegramConfig));
+    }, [telegramConfig]);
 
     const PageRenderer: React.FC = () => {
     const { isEnglish } = useLanguage();
