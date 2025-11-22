@@ -1,11 +1,38 @@
-# ![ARGOM VENOM](image.png)
-
-🚀 **ARGOM VENOM - Trading Dashboard Profesional**
+# 🚀 **ARGOM VENOM - Trading Dashboard Profesional**
 _Sistema de trading avanzado con Telegram scraper integrado para análisis de mercado en tiempo real_
 
-Sistema de trading integral con dashboard profesional, Telegram scraper automatizado, autenticación segura y múltiples herramientas de análisis diseñado específicamente para traders de criptomonedas y análisis de mercado.
+## 🛠️ Stack Tecnológico
 
-**React** **TypeScript** **Electron** **Node.js** **Python** **Telegram API**
+### **Frontend**
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Electron](https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
+
+### **Backend & Automatización**
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Telethon](https://img.shields.io/badge/Telethon-2A5EE0?style=for-the-badge&logo=python&logoColor=white)](https://github.com/LonamiWebs/Telethon)
+[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+
+### **Integraciones**
+[![Telegram API](https://img.shields.io/badge/Telegram%20API-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://core.telegram.org/api)
+[![DexScreener](https://img.shields.io/badge/DexScreener-FF6B6B?style=for-the-badge&logoColor=white)](https://dexscreener.com/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
+
+---
+
+## 📋 Descripción del Proyecto
+
+**ARGOM VENOM** es un sistema de trading profesional diseñado para traders que necesitan una solución completa para monitorear señales de mercado, analizar tendencias de criptomonedas, gestionar operaciones y automatizar el análisis de grupos de Telegram en tiempo real.
+
+## 🎯 **Vista Principal del Sistema**
+
+[![ARGOM VENOM](image.png)](https://argom.ibpau.rest/login)
+
+*Haz clic en la imagen para acceder al sistema*
 
 ---
 

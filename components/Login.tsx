@@ -21,6 +21,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
         password: 'memecoins2025'
     };
 
+    // Usuario de prueba
+    const DEMO_CREDENTIALS = {
+        username: 'demo',
+        password: 'demo123'
+    };
+
     // Al montar, verificar si hay una sesión guardada
     useEffect(() => {
         checkExistingSession();
@@ -64,8 +70,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
         setIsLoading(true);
         setError('');
 
-        // Validar credenciales
-        if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
+        // Validar credenciales (incluyendo usuario demo)
+        const isValidMainUser = username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password;
+        const isValidDemoUser = username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS.password;
+
+        if (isValidMainUser || isValidDemoUser) {
             try {
                 // Cache local si rememberMe está activado
                 cacheSession(username);
@@ -233,8 +242,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
                 </button>
 
                 <div className="text-center mt-4">
-                    <p className="text-[#A0A0A0] text-xs">
+                    <p className="text-[#A0A0A0] text-xs mb-2">
                         Sistema de autenticación segura y permanente
+                    </p>
+                    <p className="text-[#666] text-xs">
+                        <span className="font-semibold">Usuario de prueba:</span> demo / demo123
                     </p>
                 </div>
             </form>
