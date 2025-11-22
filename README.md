@@ -1,136 +1,226 @@
-# Venom Bot - Sistema de Trading Automatizado
+# ![ARGOM VENOM](image.png)
 
-Bienvenido a Venom Bot, un sistema avanzado de trading automatizado especializado en memecoins con una interfaz profesional y completa.
+🚀 **ARGOM VENOM - Trading Dashboard Profesional**
+_Sistema de trading avanzado con Telegram scraper integrado para análisis de mercado en tiempo real_
 
-## ¿Cómo usar el bot?
+Sistema de trading integral con dashboard profesional, Telegram scraper automatizado, autenticación segura y múltiples herramientas de análisis diseñado específicamente para traders de criptomonedas y análisis de mercado.
 
-### 1. **Interfaz Principal - Layout**
+**React** **TypeScript** **Electron** **Node.js** **Python** **Telegram API**
 
-#### **Barra Lateral Izquierda**
-- **Logo Argom Venom**: Identificador del bot
-- **Botones Rápidos Superiores**:
-  - **Buy**: Botón verde para comprar rápidamente
-  - **Sell**: Botón rojo para vender rápidamente
-- **Menú de Navegación**:
-  - **Main**:
-    - **Dashboard**: Vista general de tu portfolio
-    - **Positions**: Tus posiciones activas
-    - **Orders**: Órdenes pendientes
-    - **Transactions**: Historial de transacciones
-  - **Trading**:
-    - **LP Sniper**: Detección de nueva liquidez
-    - **Auto-Buy**: Configuración de bots automáticos
-    - **Limit Orders**: Órdenes con precio límite
-    - **DCA Orders**: Órdenes de promedio ponderado
-    - **Copy Trading**: Copiar traders exitosos
-    - **Bridge**: Transferencia entre blockchains
-    - **Withdraw**: Retirar fondos
-  - **Configuración y Ayuda**: Menú de ajustes
+---
 
-#### **Barra Superior**
-- Muestra el título de la página actual
-- Indicadores de estado de conexión
+**Desarrollado por Edwin Estrella**
 
-### 2. **Dashboard - Panel Principal**
+**📧 Email:** edwinestrella67@gmail.com
 
-#### **Estadísticas del Portfolio**
-- **Total Value**: Valor total de tu portfolio
-- **24h Change**: Cambio en las últimas 24 horas
-- **Win Rate**: Tasa de operaciones ganadoras
-- **Total P&L**: Ganancias/pérdidas totales
+---
 
-#### **Botones de Acción Rápida**
-- **New Auto-Buy**: Configurar nuevo bot de compra automática
-- **Swap Tokens**: Intercambiar tokens manualmente
+## 🏷️ Tags
+#Trading #Crypto #Dashboard #Telegram #Scraper #React #TypeScript #Electron #Python #Telethon #TelegramAPI #CryptoTrading #MarketAnalysis #RealTime #Authentication #SQLite #Express #NodeJS #ArgomVenom #TradingBot #MarketSignals #TokenAnalysis #DexScreener #PumpFun #Solana #Bitcoin #CryptoSignals #TradingDashboard #ProfessionalTrading
 
-#### **Tabla de Activos**
-- Lista de tus tokens con:
-  - Símbolo del token
-  - Precio actual
-  - Balance disponible
-  - Valor 24h (color verde para ganancias, rojo para pérdidas)
-- Botones de Buy/Sell para cada token
+## 📋 Descripción del Proyecto
 
-#### **Actividad Reciente**
-- Historial de operaciones recientes con timestamps
+**ARGOM VENOM** es un sistema de trading profesional diseñado para traders que necesitan una solución completa para monitorear señales de mercado, analizar tendencias de criptomonedas, gestionar operaciones y automatizar el análisis de grupos de Telegram en tiempo real.
 
-### 3. **Auto-Buy - Configuración del Bot**
+## 🎯 Características Principales
 
-#### **Panel de Configuración**
-- **Monto de Inversión**:
-  - Input para el monto (ej: 0.1 SOL)
-  - Selector de moneda (SOL, ETH, USDC)
-- **Dirección del Contrato**: Campo para pegar la dirección del memecoin
-- **Tipo de Disparo** (Trigger Type):
-  - **Price Dip**: Comprar cuando el precio caiga X%
-  - **Volume Spike**: Comprar cuando el volumen aumente X%
-  - **New Liquidity**: Comprar al detectar nueva liquidez
+### 💹 **Dashboard de Trading**
+- **Visualización en Tiempo Real:** Gráficos y métricas actualizadas instantáneamente
+- **Múltiples Pares:** Soporte para Bitcoin, Ethereum, Solana y más
+- **Análisis Técnico:** Indicadores y herramientas de análisis integradas
+- **Portafolio Dinámico:** Seguimiento de posiciones y ganancias/pérdidas
+- **Alertas Personalizables:** Notificaciones para cambios de precio importantes
 
-#### **Configuración Avanzada**
-- **Slippage**: Porcentaje de deslizamiento permitido (ej: 1-5%)
-- **Gas Fees**: Configuración de tarifas de gas
-- **Take Profit**: Porcentaje de ganancia para vender automáticamente
-- **Stop Loss**: Porcentaje de pérdida para vender automáticamente
+### 🤖 **Telegram Scraper Inteligente**
+- **Monitoría 24/7:** Escucha permanente de grupos de trading
+- **Filtrado Avanzado:** Detección inteligente de señales relevantes
+- **Keywords Configurables:** Busca términos específicos como DexScreener, Pump Fun
+- **Grupos Pre-configurados:** Integración con CryptoEnfermosChat y más
+- **Formateo Inteligente:** Detección automática de enlaces y patrones
 
-#### **Botones de Acción**
-- **Start Bot**: Iniciar la estrategia configurada
-- **Save Configuration**: Guardar configuración para uso futuro
-- **Cancel**: Cancelar configuración actual
+### 🔐 **Sistema de Autenticación Profesional**
+- **Login Seguro:** Autenticación con credenciales encriptadas
+- **Sesión Permanente:** Mantén tu sesión activa por 7 días
+- **Panel de Control:** Gestión centralizada de usuario
+- **Caché Local:** Almacenamiento seguro de sesiones
+- **Logout Seguro:** Cierre de sesión con limpieza completa
 
-### 4. **Modal de Trading (Swap)**
+### 📊 **Análisis y Reportes**
+- **Métricas en Vivo:** Estadísticas de trading actualizadas
+- **Historial Completo:** Registro de todas las operaciones
+- **Exportación de Datos:** Compatible con Excel y CSV
+- **Dashboard Personalizable:** Adapta la vista a tus necesidades
 
-#### **Interfaz de Compra/Venta**
-- **From Token**: Token que quieres vender (con balance disponible)
-- **To Token**: Token que quieres comprar
-- **Amount**: Cantidad a intercambiar
-- **Botón de Confirmación**:
-  - Color verde para operaciones de Buy
-  - Color rojo para operaciones de Sell
-  - Muestra el monto total de la operación
+### 🎨 **Interfaz Profesional**
+- **Design Oscuro:** Optimizado para largas sesiones de trading
+- **Responsive:** Compatible con desktop y tablet
+- **Intuitivo:** Fácil navegación entre herramientas
+- **Modo Fullscreen:** Maximiza tu espacio de análisis
 
-### 5. **Tablas de Estrategias Activas**
+## 🛠️ Stack Tecnológico
 
-#### **Estados de Estrategia**
-- **Active**: Estrategia corriendo activamente
-- **Executing**: Estrategia ejecutando una operación
-- **Completed**: Estrategia finalizada
-- **Failed**: Estrategia fallida
+### **Frontend**
+- **React 19.2** - Biblioteca de interfaz de usuario moderna
+- **TypeScript** - Tipado estático y seguridad en el código
+- **TailwindCSS** - Framework CSS utility-first
+- **Vite** - Build tool ultra-rápido
+- **Electron 38.4** - Aplicación desktop multiplataforma
 
-#### **Acciones sobre Estrategias**
-- **Stop**: Detener estrategia
-- **Edit**: Modificar configuración
-- **Delete**: Eliminar estrategia
+### **Backend & Automatización**
+- **Python + Telethon** - Integración con Telegram API
+- **Node.js + Express** - Servidor de autenticación
+- **SQLite** - Base de datos local para sesiones
+- **Socket.IO** - Comunicación en tiempo real
 
-### 6. **Configuración de Trading**
+### **Integraciones**
+- **Telegram API** - Acceso a grupos y mensajes
+- **DexScreener API** - Datos de precios y volumen
+- **Pump Fun** - Análisis de tokens emergentes
+- **Twitter/X API** - Monitoría de influencers
 
-#### **Protección MEV**
-- Toggle para activar/desactivar protección contra ataques MEV
+## 🏗️ Arquitectura del Sistema
 
-#### **Configuración de Gas**
-- **Gas Mode**: Normal, Fast, Instant
-- **Gas Limit**: Límite máximo de gas por transacción
+### **Módulos Principales**
 
-#### **Slippage por Defecto**
-- Configuración global de slippage para todas las operaciones
+#### 🔐 **Módulo de Autenticación**
+- Login seguro con credenciales personalizadas
+- Gestión de sesiones persistentes
+- Panel de control de usuario
+- Caché local con encriptación
 
-### 7. **Funcionalidades Adicionales**
+#### 📱 **Módulo Telegram Scraper**
+- Conexión con Telegram API usando Telethon
+- Monitoría de múltiples grupos simultáneamente
+- Filtrado inteligente con keywords
+- Detección de patrones y enlaces relevantes
 
-#### **Limit Orders**
-- Configurar precio de compra/venta específico
-- Establecer caducidad de la orden
+#### 📊 **Dashboard Principal**
+- Visualización de portafolio
+- Gráficos de precios en tiempo real
+- Indicadores técnicos personalizados
+- Alertas y notificaciones
 
-#### **DCA Orders**
-- Configurar compras automáticas periódicas
-- Promediar el precio de entrada
+#### ⚙️ **Gestión de Configuración**
+- Panel de configuración de API keys
+- Gestión de grupos y keywords
+- Personalización del dashboard
+- Exportación de datos
 
-#### **LP Sniper**
-- Monitoreo constante de nuevos pares de liquidez
-- Configuración de filtros automática
+## 📱 **Características de Interfaz**
 
+### **Desktop Experience**
+- **Pantalla Completa:** Aprovecha todo el espacio de tu monitor
+- **Múltiples Ventanas:** Organiza tu workspace
+- **Atajos de Teclado:** Navegación rápida y eficiente
+- **Modo Oscuro:** Protege tu vista durante largas sesiones
 
+### **Interactividad**
+- **Arrastrar y Soltar:** Organiza tus widgets
+- **Click Derecho:** Menús contextuales rápidos
+- **Tooltips:** Ayuda contextual en tiempo real
+- **Animaciones Suaves:** Transiciones profesionales
 
-## Advertencia Importante
+## 🔒 **Seguridad y Privacidad**
 
-⚠️ **Riesgo del Trading de Memecoins**: Las memecoins son extremadamente volátiles y pueden resultar en pérdidas totales. Opera siempre con responsabilidad y nunca inviertas más de lo que estás dispuesto a perder.
+ARGOM VENOM implementa medidas de seguridad enterprise:
 
-*Nota: Este es un proyecto personal privado. La configuración técnica (variables de entorno, API keys, etc.) ya está configurada y no requiere intervención del usuario.*
+- **Encriptación End-to-End:** Protección de datos sensibles
+- **Almacenamiento Local:** Tus datos nunca salen de tu dispositivo
+- **Autenticación Segura:** Sin almacenamiento de contraseñas en texto plano
+- **Session Tokens:** Tokens JWT con expiración automática
+- **Sandboxing:** Aislamiento de procesos para seguridad
+- **Actualizaciones Automáticas:** Parches de seguridad regularmente
+- **Roles y permisos granulares**
+
+## 📊 **Análisis y Métricas**
+
+### **Trading Metrics**
+- **Profit/Loss:** Ganancias y pérdidas en tiempo real
+- **Win Rate:** Porcentaje de operaciones exitosas
+- **Risk/Reward:** Relación riesgo-recompensa
+- **Drawdown:** Análisis de pérdidas máximas
+
+### **Telegram Analytics**
+- **Message Frequency:** Frecuencia de mensajes por grupo
+- **Keyword Detection:** Estadísticas de detección de patrones
+- **Response Time:** Tiempo de respuesta a señales
+- **Success Rate:** Efectividad de las señales detectadas
+
+## 🎨 **Personalización Avanzada**
+
+### **Temas y Apariencia**
+- **Modo Oscuro/Claro:** Cambia según tu preferencia
+- **Acentos de Color:** Personaliza la interfaz
+- **Tipografía:** Ajusta tamaños y fuentes
+- **Layout Flexible:** Organiza los componentes a tu gusto
+
+### **Configuración Trading**
+- **Pares Personalizados:** Agrega tus cryptos favoritas
+- **Alertas Configurables:** Define tus umbrales
+- **Indicadores Técnicos:** Elige tus herramientas preferidas
+- **Timeframes:** Múltiples intervalos de tiempo
+
+## 📞 **Contacto y Soporte**
+
+### **Desarrollador Principal**
+- **Edwin Estrella** - Full Stack Developer & Trading Systems Architect
+
+### **Información de Contacto**
+- **📧 Email:** edwinestrella67@gmail.com
+- **🔗 GitHub:** @EdwinEstrella
+- **📱 Telegram:** @EdwinEstrella
+
+### **Soporte Técnico**
+- **🐛 Bug Reports:** Reporta problemas técnicos
+- **💡 Feature Requests:** Sugerencias de mejora
+- **📚 Documentación:** Guías y tutoriales
+- **🎓 Training:** Capacitación personalizada
+
+## 📄 **Licencia y Derechos**
+
+Este proyecto es propiedad exclusiva de Edwin Estrella y está protegido por derechos de autor.
+
+**Todos los derechos reservados © 2024 Edwin Estrella**
+
+**⚠️ Queda estrictamente prohibido:**
+- La reventa o distribución comercial sin autorización
+- La modificación del código fuente
+- El uso para fines comerciales sin licencia
+- La reversión de ingeniería
+
+Para más información sobre licenciamiento, contactar directamente.
+
+---
+
+## 🙏 **Agradecimientos Especiales**
+
+Este proyecto fue desarrollado utilizando tecnologías de vanguardia y herramientas open source:
+
+- **React & Next.js** - Frameworks JavaScript modernos
+- **TypeScript** - Superconjunto de JavaScript tipado
+- **Electron** - Desarrollo de aplicaciones desktop
+- **Python & Telethon** - Integración con Telegram
+- **TailwindCSS** - Framework CSS utility-first
+- **Vite** - Herramienta de construcción ultra-rápida
+
+---
+
+## 🔮 **Visión de Futuro**
+
+ARGOM VENOM está en constante evolución con próximas características:
+
+- **🤖 AI Trading Bot:** Automatización de estrategias
+- **📱 Mobile App:** Versión nativa para iOS/Android
+- **🌐 Multi-Exchange:** Integración con más exchanges
+- **📈 Advanced Analytics:** Machine Learning para predicciones
+- **🤝 Social Trading:** Copia de estrategias de traders exitosos
+
+---
+
+**Desarrollado con ❤️ y ☕ por Edwin Estrella**
+
+*"Simplificando el trading de criptomonedas con tecnología de punta"*
+
+---
+
+**© 2024 - Todos los derechos reservados**
