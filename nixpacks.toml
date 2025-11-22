@@ -4,6 +4,7 @@ NODE_VERSION = "22"
 
 [phases.build]
 cmds = [
+  "rm -rf node_modules/.cache || true",
   "npm ci --include=dev",
   "npm run build"
 ]
