@@ -40,11 +40,8 @@ RUN apk add --no-cache ca-certificates
 # Copiar archivos estáticos del builder
 COPY --from=builder /app/dist /app/dist
 
-# Copiar configuración de Caddy
-COPY Caddyfile /etc/caddy/Caddyfile
+# Exponer puerto 3000
+EXPOSE 3000
 
-# Exponer puerto 80 (standard HTTP)
-EXPOSE 80
-
-# Comando de inicio para Caddy
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+# Comando de inicio para Caddy con file server simple en puerto 3000
+CMD ["caddy", "file-server", "--root", "/app/dist", "--listen", ":3000"]

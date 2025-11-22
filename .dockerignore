@@ -13,8 +13,6 @@ coverage
 .idea
 *.md
 !README.md
-!Caddyfile
-# Excluir server.js ya que usamos Caddy
 server.js
 .DS_Store
 Thumbs.db
