@@ -4,9 +4,11 @@ import { useLanguage } from '../contexts/LanguageContext';
 interface HeaderProps {
     pageTitle: string;
     onMenuClick: () => void;
+    onLogout?: () => void;
+    currentUser?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick }) => {
+export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick, onLogout, currentUser }) => {
     const { isEnglish, setIsEnglish } = useLanguage();
 
     return (
@@ -39,9 +41,34 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick }) => {
                     </label>
                     <span className="text-sm text-gray-400">EN</span>
                 </div>
-                <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
-                    Connect Wallet
-                </button>
+                {currentUser ? (
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <span className="text-background-dark text-sm font-bold">
+                                    {currentUser.charAt(0).toUpperCase()}
+                                </span>
+                            </div>
+                            <span className="text-white text-sm font-medium hidden md:block">
+                                {currentUser}
+                            </span>
+                        </div>
+                        <button
+                            onClick={onLogout}
+                            className="flex items-center justify-center gap-2 rounded-lg h-10 px-3 bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-colors"
+                            title={isEnglish ? "Logout" : "Cerrar sesión"}
+                        >
+                            <span className="material-symbols-outlined text-sm">logout</span>
+                            <span className="hidden sm:inline">
+                                {isEnglish ? "Logout" : "Salir"}
+                            </span>
+                        </button>
+                    </div>
+                ) : (
+                    <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
+                        Connect Wallet
+                    </button>
+                )}
             </div>
         </header>
     );
