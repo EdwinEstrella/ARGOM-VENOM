@@ -31,17 +31,21 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
+    "clsx": "2.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "sqlite3": "^5.1.7",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "3.4.0",
+    "three": "0.181.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.16",
     "@types/node": "^22.14.0",
+    "@types/react": "19.2.6",
+    "@types/react-dom": "19.2.3",
+    "@types/three": "0.181.0",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.1",

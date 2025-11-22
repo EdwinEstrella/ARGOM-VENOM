@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
+import { DottedBackground } from './ui/dotted-background';
 
 interface LoginProps {
     onLogin: (isAuthenticated: boolean, user: string) => void;
@@ -185,8 +186,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
 
     // Formulario de login
     return (
-        <Card title="Panel de Autenticación">
-            <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        <div className="relative min-h-screen">
+            <DottedBackground />
+            <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+                <Card title="Panel de Autenticación">
+                    <form onSubmit={handleLogin} className="flex flex-col gap-4">
                 <div className="mb-4">
                     <h2 className="text-white text-xl font-bold mb-2">Argom Venom</h2>
                     <p className="text-[#A0A0A0] text-sm">
@@ -282,5 +286,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
                 </div>
             </form>
         </Card>
+            </div>
+        </div>
     );
 };

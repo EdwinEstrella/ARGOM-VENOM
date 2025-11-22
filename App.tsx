@@ -181,14 +181,12 @@ const renderPage = () => <PageRenderer />;
     if (!isAuthenticated) {
         return (
             <LanguageProvider>
-                <div className="min-h-screen bg-[#0D0D0F] flex items-center justify-center p-4">
-                    <div className="w-full max-w-md">
-                        <Login
-                            onLogin={handleLogin}
-                            isAuthenticated={isAuthenticated}
-                            currentUser={currentUser}
-                        />
-                    </div>
+                <div className="min-h-screen relative">
+                    <Login
+                        onLogin={handleLogin}
+                        isAuthenticated={isAuthenticated}
+                        currentUser={currentUser}
+                    />
                 </div>
             </LanguageProvider>
         );
