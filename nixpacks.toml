@@ -2,6 +2,9 @@
 NIXPACKS_SPA_OUTPUT_DIR = "dist"
 NODE_VERSION = "22"
 
+[phases.install]
+cmds = ["npm ci --omit=dev --no-audit --no-fund"]
+
 [phases.build]
 cmds = [
   "rm -rf node_modules/.cache || true",
@@ -10,4 +13,4 @@ cmds = [
 ]
 
 [start]
-cmd = "echo 'App built successfully - serving static files'"
+cmd = "node server.js"
