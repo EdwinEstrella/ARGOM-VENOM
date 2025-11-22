@@ -4,9 +4,11 @@ import { useLanguage } from '../contexts/LanguageContext';
 interface HeaderProps {
     pageTitle: string;
     onMenuClick: () => void;
+    onLogout?: () => void;
+    currentUser?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick }) => {
+export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick, onLogout, currentUser }) => {
     const { isEnglish, setIsEnglish } = useLanguage();
 
     return (
@@ -39,9 +41,31 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, onMenuClick }) => {
                     </label>
                     <span className="text-sm text-gray-400">EN</span>
                 </div>
-                <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
-                    Connect Wallet
-                </button>
+                {currentUser && (
+                    <div className="flex items-center gap-3">
+                        <div className="hidden sm:flex items-center gap-2 bg-[#2A2A2E] px-3 py-2 rounded-lg">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="text-white text-sm font-medium">{currentUser}</span>
+                        </div>
+                        {onLogout && (
+                            <button
+                                onClick={onLogout}
+                                className="flex items-center gap-2 cursor-pointer overflow-hidden rounded-lg h-10 px-4 bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-colors"
+                                title="Cerrar sesión"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                <span className="hidden sm:inline">Logout</span>
+                            </button>
+                        )}
+                    </div>
+                )}
+                {!currentUser && (
+                    <button className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-all">
+                        Connect Wallet
+                    </button>
+                )}
             </div>
         </header>
     );

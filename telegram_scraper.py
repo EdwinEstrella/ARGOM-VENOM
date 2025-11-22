@@ -80,11 +80,31 @@ class TelegramScraper:
                 message_data = self.format_message(event)
                 self.messages.append(message_data)
 
-                # Print to console
-                print(f"\n📨 New message in {message_data['group']}:")
-                print(f"📝 {message_text}")
-                print(f"⏰ {message_data['timestamp']}")
-                print("-" * 50)
+                # Print to console with enhanced formatting
+                print("\n" + "="*60)
+                print(f"📨 NUEVO MENSAJE EN: {message_data['group']}")
+                print(f"🆔 ID: {message_data['id']}")
+                print(f"👤 Usuario: @{message_data.get('username', 'N/A')}")
+                print(f"📱 Grupo ID: {message_data.get('group_id', 'N/A')}")
+                print(f"⏰ Timestamp: {message_data['timestamp']}")
+                print("\n📝 MENSAJE:")
+                print(f"─" * 40)
+                print(f"{message_text}")
+                print(f"─" * 40)
+
+                # Detectar enlaces importantes
+                if 'dexscreener.com' in message_text.lower():
+                    print("🚀 ¡ENLACE DE DEXSCREENER DETECTADO!")
+                if 'pump.fun' in message_text.lower():
+                    print("🎯 ¡ENLANCE DE PUMP.FUN DETECTADO!")
+                if 'x.com' in message_text.lower() or 'twitter.com' in message_text.lower():
+                    print("🐦 ¡ENLACE DE TWITTER/X DETECTADO!")
+                if 'solana' in message_text.lower():
+                    print("☀️ ¡MENCIÓN DE SOLANA DETECTADA!")
+                if 'token' in message_text.lower():
+                    print("💰 ¡MENCIÓN DE TOKEN DETECTADA!")
+
+                print("="*60)
 
                 # Output as JSON for node integration
                 print(f"DATA:{json.dumps(message_data)}", flush=True)

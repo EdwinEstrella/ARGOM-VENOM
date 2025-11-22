@@ -3,6 +3,7 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { Dashboard } from './components/Dashboard';
+import { Login } from './components/Login.tsx';
 import { AutoBuy } from './components/AutoBuy';
 import { Positions } from './components/Positions';
 import { LimitOrders } from './components/LimitOrders';
@@ -61,6 +62,16 @@ const App: React.FC = () => {
     const [isSwapModalOpen, setIsSwapModalOpen] = useState(false);
     const [swapModalType, setSwapModalType] = useState<OrderType>('Buy');
     const [strategies, setStrategies] = useState<Strategy[]>(mockStrategies);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [currentUser, setCurrentUser] = useState<string>('');
+    const [telegramConfig, setTelegramConfig] = useState({
+        apiId: '34391980',
+        apiHash: 'b827ab78baa27abb6ecfc09d08a499bf',
+        phone: '+5492664553929',
+        groups: ['CryptoEnfermosChat'],
+        keywords: ['dexscreener.com', 'pump.fun', 'x.com', 'twitter.com', 'solana', 'token'],
+        isActive: false
+    });
 
     const handleCancelStrategy = (id: number) => {
         setStrategies(prev => prev.filter(s => s.id !== id));
@@ -75,6 +86,26 @@ const App: React.FC = () => {
     const closeSwapModal = useCallback(() => {
         setIsSwapModalOpen(false);
     }, []);
+
+    const handleLogin = (authenticated: boolean, user: string) => {
+        setIsAuthenticated(authenticated);
+        setCurrentUser(user);
+        if (authenticated) {
+            setPage('dashboard');
+        }
+    };
+
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        setCurrentUser('');
+        // Limpiar sesión del localStorage
+        localStorage.removeItem('argomVenomSession');
+        setPage('dashboard');
+    };
+
+    const handleTelegramConfigChange = (config: any) => {
+        setTelegramConfig(config);
+    };
 
     const PageRenderer: React.FC = () => {
     const { isEnglish } = useLanguage();
@@ -106,14 +137,7 @@ const App: React.FC = () => {
         case 'withdraw':
             return <Withdraw />;
         case 'telegram-scraper':
-            return <TelegramScraper config={{
-                apiId: '',
-                apiHash: '',
-                phone: '',
-                groups: [],
-                keywords: [],
-                isActive: false
-            }} onConfigChange={() => {}} />;
+            return <TelegramScraper config={telegramConfig} onConfigChange={handleTelegramConfigChange} />;
         case 'settings':
             return <Settings />;
         case 'help':
@@ -131,6 +155,24 @@ const renderPage = () => <PageRenderer />;
         setIsSidebarOpen(false); // Close sidebar on navigation
     }
 
+    // Si no está autenticado, mostrar pantalla de login
+    if (!isAuthenticated) {
+        return (
+            <LanguageProvider>
+                <div className="min-h-screen bg-[#0D0D0F] flex items-center justify-center p-4">
+                    <div className="w-full max-w-md">
+                        <Login
+                            onLogin={handleLogin}
+                            isAuthenticated={isAuthenticated}
+                            currentUser={currentUser}
+                        />
+                    </div>
+                </div>
+            </LanguageProvider>
+        );
+    }
+
+    // Si está autenticado, mostrar la aplicación completa
     return (
         <LanguageProvider>
             <div className="flex h-screen bg-[#0D0D0F] text-white overflow-hidden">
@@ -142,7 +184,7 @@ const renderPage = () => <PageRenderer />;
                     openSwapModal={openSwapModal}
                 />
                 <div className="flex flex-1 flex-col overflow-y-auto">
-                    <Header pageTitle={page} onMenuClick={() => setIsSidebarOpen(true)} />
+                    <Header pageTitle={page} onMenuClick={() => setIsSidebarOpen(true)} onLogout={handleLogout} currentUser={currentUser} />
                     <main className="flex-1 p-4 md:p-8">
                         {renderPage()}
                     </main>

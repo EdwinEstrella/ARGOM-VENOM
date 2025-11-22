@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "vite",
     "dev:electron": "cross-env ELECTRON=true vite",
+    "dev:server": "node server/app.js",
+    "dev:full": "concurrently \"npm run dev:server\" \"npm run dev\"",
     "build": "vite build",
     "build:electron": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && electron-builder",
     "build:installer": "tsc -p electron && npm run build && ren dist-electron\\main.js main.cjs && ren dist-electron\\preload.js preload.cjs && npm run pack && cp LICENSE release/win-unpacked/ && node create-installer.js",
@@ -25,8 +27,11 @@
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "sqlite3": "^5.1.7",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
