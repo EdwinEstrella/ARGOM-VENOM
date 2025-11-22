@@ -14,6 +14,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
     const [error, setError] = useState('');
     const [rememberMe, setRememberMe] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const [isDemoMode, setIsDemoMode] = useState(false);
 
     // Credenciales válidas
     const VALID_CREDENTIALS = {
@@ -41,6 +42,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
 
             if (isFromReadme || urlParams.get('demo') === 'true') {
                 console.log('🚀 Acceso desde README detectado - Autocompletando modo demo');
+                // Activar modo demo para evitar errores de validación
+                setIsDemoMode(true);
+
+                // Limpiar cualquier error existente
+                setError('');
+
                 // Solo autocompletar formulario, sin login automático
                 setUsername(DEMO_CREDENTIALS.username);
                 setPassword(DEMO_CREDENTIALS.password);
@@ -90,6 +97,9 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
         e.preventDefault();
         setIsLoading(true);
         setError('');
+
+        // Resetear modo demo al intentar login manual
+        setIsDemoMode(false);
 
         // Validar credenciales (incluyendo usuario demo)
         const isValidMainUser = username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password;
@@ -184,7 +194,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
                     </p>
                 </div>
 
-                {error && (
+                {error && !isDemoMode && (
                     <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
                         <p className="text-red-400 text-sm">{error}</p>
                     </div>
