@@ -50,44 +50,26 @@ export const TelegramScraper: React.FC<TelegramScraperProps> = ({ config, onConf
     }, []);
 
     useEffect(() => {
-        // Auto-connect when config becomes active and we have credentials
-        if (config.isActive && config.apiId && config.apiHash && config.phone && !isConnected) {
-            console.log('🚀 Auto-connecting Telegram scraper...');
-            handleConnect();
-        }
-
-        // Auto-disconnect when config becomes inactive
-        if (!config.isActive && isConnected) {
-            console.log('🛑 Auto-disconnecting Telegram scraper...');
-            handleDisconnect();
-        }
-    }, [config.isActive]);
-
-    useEffect(() => {
-        // Simulate receiving messages for demonstration (only when connected and active)
+        // Simulate receiving messages for demonstration
         if (config.isActive && isConnected) {
             const interval = setInterval(() => {
                 const mockMessage: TelegramMessage = {
                     id: Date.now(),
-                    group: config.groups[0] || 'CryptoEnfermosChat',
-                    message: `🚀 New token launch: ${Math.random().toString(36).substring(7)} with great potential!\n🔗 https://dexscreener.com/solana/9qegTXMQS6H1jNeW5VRk5UXDoL8unDyKKPXwzHEFqcMx`,
+                    group: config.groups[0] || 'Demo Group',
+                    message: `🚀 New token launch: ${Math.random().toString(36).substring(7)} with great potential!`,
                     timestamp: new Date().toLocaleTimeString(),
                     processed: false
                 };
                 setMessages(prev => [mockMessage, ...prev].slice(0, 50)); // Keep last 50 messages
-            }, 8000); // New message every 8 seconds for demo
+            }, 10000); // New message every 10 seconds for demo
 
             return () => clearInterval(interval);
         }
     }, [config.isActive, isConnected, config.groups]);
 
     const handleConnect = async () => {
-        console.log('🔌 Attempting to connect to Telegram...');
-        console.log('📋 Config:', config);
-
         if (!config.apiId || !config.apiHash || !config.phone) {
-            console.error('❌ Missing credentials');
-            alert('Por favor completa todas las credenciales de la API de Telegram primero');
+            alert('Please fill in all Telegram API credentials first');
             return;
         }
 
@@ -96,30 +78,23 @@ export const TelegramScraper: React.FC<TelegramScraperProps> = ({ config, onConf
         try {
             // Use the Electron API to start the Telegram scraper
             if (window.electronAPI) {
-                console.log('🚀 Using Electron API to start Telegram scraper...');
                 const result = await window.electronAPI.startTelegramScraper(config);
-                console.log('📡 Result from Electron API:', result);
-
                 if (result.success) {
                     setConnectionStatus('connected');
                     setIsConnected(true);
-                    console.log('✅ Telegram scraper connected successfully via Electron');
                 } else {
                     setConnectionStatus('error');
-                    console.error('❌ Failed to connect to Telegram:', result.error);
+                    console.error('Failed to connect to Telegram:', result.error);
                 }
             } else {
                 // Fallback for development without Electron
-                console.log('🧪 Using development fallback (no Electron API)');
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 setConnectionStatus('connected');
                 setIsConnected(true);
-                console.log('✅ Telegram scraper connected in development mode');
             }
         } catch (error: any) {
             setConnectionStatus('error');
-            console.error('❌ Failed to connect to Telegram:', error);
-            alert(`Error de conexión: ${error.message || 'Error desconocido'}`);
+            console.error('Failed to connect to Telegram:', error);
         }
     };
 
