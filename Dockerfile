@@ -1,4 +1,5 @@
-FROM node:22-alpine
+# Multi-stage build
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -30,8 +31,20 @@ RUN npm prune --production
 RUN rm -rf /tmp/.npm || true && \
     rm -rf node_modules/.cache || true
 
-# Exponer puerto
+# Production stage with Caddy
+FROM caddy:2-alpine AS production
+
+# Instalar ca-certificates para HTTPS
+RUN apk add --no-cache ca-certificates
+
+# Copiar archivos estáticos del builder
+COPY --from=builder /app/dist /app/dist
+
+# Copiar configuración de Caddy
+COPY Caddyfile /etc/caddy/Caddyfile
+
+# Exponer puerto (Caddy usa 80 por defecto, pero Dokpley podría esperar 3000)
 EXPOSE 3000
 
-# Comando de inicio para servir archivos estáticos
-CMD ["node", "server.js"]
+# Comando de inicio para Caddy
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile", "--listen", ":3000"]

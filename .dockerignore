@@ -14,7 +14,8 @@ coverage
 *.md
 !README.md
 !Caddyfile
-!server.js
+# Excluir server.js ya que usamos Caddy
+server.js
 .DS_Store
 Thumbs.db
 release
