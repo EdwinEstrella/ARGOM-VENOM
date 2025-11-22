@@ -30,9 +30,9 @@ _Sistema de trading avanzado con Telegram scraper integrado para análisis de me
 
 ## 🎯 **Vista Principal del Sistema**
 
-[![ARGOM VENOM](image.png)](https://argom.ibpau.rest/login)
+[![ARGOM VENOM](image.png)](https://argom.azokia.com/)
 
-*Haz clic en la imagen para acceder al sistema*
+*Haz clic en la imagen para acceder al sistema con usuario demo automático*
 
 ---
 

@@ -27,10 +27,34 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
         password: 'demo123'
     };
 
-    // Al montar, verificar si hay una sesión guardada
+    // Al montar, verificar si hay una sesión guardada o parámetro demo
     useEffect(() => {
         checkExistingSession();
+        checkForDemoParameter();
     }, []);
+
+    const checkForDemoParameter = () => {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isFromReadme = urlParams.get('from') === 'readme' ||
+                               window.document.referrer.includes('github.com');
+
+            if (isFromReadme || urlParams.get('demo') === 'true') {
+                console.log('🚀 Acceso desde README detectado - Activando modo demo');
+                // Llenar formulario con credenciales demo
+                setUsername(DEMO_CREDENTIALS.username);
+                setPassword(DEMO_CREDENTIALS.password);
+                setRememberMe(true);
+
+                // Opcional: Auto-login después de 1 segundo para mejor UX
+                setTimeout(() => {
+                    performAutoLogin();
+                }, 1000);
+            }
+        } catch (error) {
+            console.error('Error checking demo parameter:', error);
+        }
+    };
 
     const checkExistingSession = async () => {
         try {
@@ -63,6 +87,35 @@ export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentU
             localStorage.setItem('argomVenomSession', JSON.stringify(sessionData));
             console.log('💾 Sesión guardada en caché para:', username);
         }
+    };
+
+    const performAutoLogin = async () => {
+        // Verificar que tenemos las credenciales demo
+        if (username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS.password) {
+            setIsLoading(true);
+            setError('');
+
+            try {
+                // Cache local si rememberMe está activado
+                cacheSession(username);
+
+                onLogin(true, username);
+                setError('');
+                console.log('🚀 Auto-login demo exitoso para:', username);
+
+                // TODO: Integrar con servidor cuando esté disponible
+                // await saveSessionToServer(username);
+
+            } catch (error) {
+                console.error('Error en login:', error);
+                setError('Error de conexión');
+            }
+        } else {
+            setError('Credenciales incorrectas');
+            console.log('❌ Credenciales inválidas');
+        }
+
+        setIsLoading(false);
     };
 
     const handleLogin = async (e: React.FormEvent) => {
