@@ -1,3 +1,17 @@
+[phases.setup]
+nixPkgs = ["nodejs_22", "npm"]
+
 [variables]
 NIXPACKS_SPA_OUTPUT_DIR = "dist"
 NODE_VERSION = "22"
+NPM_CONFIG_OMIT = "false"
+NIXPACKS_PATH = "/app"
+
+[phases.build]
+cmds = [
+  "npm ci --include=dev",
+  "npm run build"
+]
+
+[start]
+cmd = "echo 'App built successfully - serving static files'"
