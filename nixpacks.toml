@@ -8,9 +8,9 @@ cmds = ["npm ci --omit=dev --no-audit --no-fund --cache=/tmp/.npm"]
 
 [phases.build]
 cmds = [
-  "rm -rf node_modules/.cache || true",
+  "npm config set cache /tmp/.npm --global",
   "rm -rf /tmp/.npm || true",
-  "npm ci --include=dev --cache=/tmp/.npm",
+  "npm ci --include=dev --no-cache",
   "npm run build"
 ]
 
