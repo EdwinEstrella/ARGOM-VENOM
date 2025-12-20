@@ -1,26 +1,76 @@
-# **ARGOM VENOM - Trading Dashboard Profesional**
-_Sistema de trading avanzado con Telegram scraper integrado para análisis de mercado en tiempo real_
+<div align="center">
+  <h1> _-_-_ ARGOM VENOM _-_-_</h1>
+  <h3>Trading Dashboard Profesional</h3>
+  <p>
+    Sistema de trading avanzado con <strong>Telegram scraper</strong> integrado
+    para análisis de mercado en tiempo real
+  </p>
+</div>
 
-## --- Stack Tecnológico ---
+<br />
 
-**Frontend**
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Electron](https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
+<div align="center">
+  <h2>--- Stack Tecnológico --- </h2>
+</div>
 
-**Backend & Automatización**
-[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Telethon](https://img.shields.io/badge/Telethon-2A5EE0?style=for-the-badge&logo=python&logoColor=white)](https://github.com/LonamiWebs/Telethon)
-[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+<div align="center">
+  <h2>Frontend</h2>
 
-**Integraciones**
-[![Telegram API](https://img.shields.io/badge/Telegram%20API-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://core.telegram.org/api)
-[![DexScreener](https://img.shields.io/badge/DexScreener-FF6B6B?style=for-the-badge&logoColor=white)](https://dexscreener.com/)
-[![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white)](https://socket.io/)
+  <a href="https://reactjs.org/">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  </a>
+  <a href="https://tailwindcss.com/">
+    <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="TailwindCSS">
+  </a>
+  <a href="https://vitejs.dev/">
+    <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+  </a>
+  <a href="https://www.electronjs.org/">
+    <img src="https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white" alt="Electron">
+  </a>
+</div>
+
+<br />
+
+<div align="center">
+  <h2>Backend & Automatización</h2>
+
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  </a>
+  <a href="https://github.com/LonamiWebs/Telethon">
+    <img src="https://img.shields.io/badge/Telethon-2A5EE0?style=for-the-badge&logo=python&logoColor=white" alt="Telethon">
+  </a>
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+  </a>
+  <a href="https://expressjs.com/">
+    <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white" alt="Express.js">
+  </a>
+  <a href="https://www.sqlite.org/">
+    <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  </a>
+</div>
+
+<br />
+
+<div align="center">
+  <h2>Integraciones</h2>
+
+  <a href="https://core.telegram.org/api">
+    <img src="https://img.shields.io/badge/Telegram%20API-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram API">
+  </a>
+  <a href="https://dexscreener.com/">
+    <img src="https://img.shields.io/badge/DexScreener-FF6B6B?style=for-the-badge&logoColor=white" alt="DexScreener">
+  </a>
+  <a href="https://socket.io/">
+    <img src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.IO">
+  </a>
+</div>
+
 
 ---
 
