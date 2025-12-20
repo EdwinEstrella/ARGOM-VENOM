@@ -1,7 +1,7 @@
-# 🚀 **ARGOM VENOM - Trading Dashboard Profesional**
+# **ARGOM VENOM - Trading Dashboard Profesional**
 _Sistema de trading avanzado con Telegram scraper integrado para análisis de mercado en tiempo real_
 
-## 🛠️ Stack Tecnológico
+## --- Stack Tecnológico ---
 
 **Frontend**
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
@@ -24,11 +24,11 @@ _Sistema de trading avanzado con Telegram scraper integrado para análisis de me
 
 ---
 
-## 📋 Descripción del Proyecto
+## --- Descripción del Proyecto ---
 
 **ARGOM VENOM** es un sistema de trading profesional diseñado para traders que necesitan una solución completa para monitorear señales de mercado, analizar tendencias de criptomonedas, gestionar operaciones y automatizar el análisis de grupos de Telegram en tiempo real.
 
-## 🎯 **Vista Principal del Sistema**
+## --- **Vista Principal del Sistema** ---
 
 [![ARGOM VENOM](image.png)](https://argom.azokia.com/)
 
@@ -109,31 +109,31 @@ _Sistema de trading avanzado con Telegram scraper integrado para análisis de me
 
 ### **Módulos Principales**
 
-#### 🔐 **Módulo de Autenticación**
+#### **Módulo de Autenticación**
 - Login seguro con credenciales personalizadas
 - Gestión de sesiones persistentes
 - Panel de control de usuario
 - Caché local con encriptación
 
-#### 📱 **Módulo Telegram Scraper**
+#### **Módulo Telegram Scraper**
 - Conexión con Telegram API usando Telethon
 - Monitoría de múltiples grupos simultáneamente
 - Filtrado inteligente con keywords
 - Detección de patrones y enlaces relevantes
 
-#### 📊 **Dashboard Principal**
+#### **Dashboard Principal**
 - Visualización de portafolio
 - Gráficos de precios en tiempo real
 - Indicadores técnicos personalizados
 - Alertas y notificaciones
 
-#### ⚙️ **Gestión de Configuración**
+#### **Gestión de Configuración**
 - Panel de configuración de API keys
 - Gestión de grupos y keywords
 - Personalización del dashboard
 - Exportación de datos
 
-## 📱 **Características de Interfaz**
+## **Características de Interfaz**
 
 ### **Desktop Experience**
 - **Pantalla Completa:** Aprovecha todo el espacio de tu monitor
@@ -147,7 +147,7 @@ _Sistema de trading avanzado con Telegram scraper integrado para análisis de me
 - **Tooltips:** Ayuda contextual en tiempo real
 - **Animaciones Suaves:** Transiciones profesionales
 
-## 🔒 **Seguridad y Privacidad**
+## **Seguridad y Privacidad**
 
 ARGOM VENOM implementa medidas de seguridad enterprise:
 
@@ -159,7 +159,7 @@ ARGOM VENOM implementa medidas de seguridad enterprise:
 - **Actualizaciones Automáticas:** Parches de seguridad regularmente
 - **Roles y permisos granulares**
 
-## 📊 **Análisis y Métricas**
+## **Análisis y Métricas**
 
 ### **Trading Metrics**
 - **Profit/Loss:** Ganancias y pérdidas en tiempo real
@@ -173,7 +173,7 @@ ARGOM VENOM implementa medidas de seguridad enterprise:
 - **Response Time:** Tiempo de respuesta a señales
 - **Success Rate:** Efectividad de las señales detectadas
 
-## 🎨 **Personalización Avanzada**
+## **Personalización Avanzada**
 
 ### **Temas y Apariencia**
 - **Modo Oscuro/Claro:** Cambia según tu preferencia
@@ -187,29 +187,29 @@ ARGOM VENOM implementa medidas de seguridad enterprise:
 - **Indicadores Técnicos:** Elige tus herramientas preferidas
 - **Timeframes:** Múltiples intervalos de tiempo
 
-## 📞 **Contacto y Soporte**
+## **Contacto y Soporte**
 
 ### **Desarrollador Principal**
 - **Edwin Estrella** - Full Stack Developer & Trading Systems Architect
 
 ### **Información de Contacto**
-- **📧 Email:** edwinestrella67@gmail.com
-- **🔗 GitHub:** @EdwinEstrella
-- **📱 Telegram:** @EdwinEstrella
+- **Email:** edwinestrella67@gmail.com
+- **GitHub:** @EdwinEstrella
+- **Telegram:** @EdwinEstrella
 
 ### **Soporte Técnico**
-- **🐛 Bug Reports:** Reporta problemas técnicos
-- **💡 Feature Requests:** Sugerencias de mejora
-- **📚 Documentación:** Guías y tutoriales
-- **🎓 Training:** Capacitación personalizada
+- **Bug Reports:** Reporta problemas técnicos
+- **Feature Requests:** Sugerencias de mejora
+- **Documentación:** Guías y tutoriales
+- **Training:** Capacitación personalizada
 
-## 📄 **Licencia y Derechos**
+## **Licencia y Derechos**
 
 Este proyecto es propiedad exclusiva de Edwin Estrella y está protegido por derechos de autor.
 
 **Todos los derechos reservados © 2024 Edwin Estrella**
 
-**⚠️ Queda estrictamente prohibido:**
+**Queda estrictamente prohibido:**
 - La reventa o distribución comercial sin autorización
 - La modificación del código fuente
 - El uso para fines comerciales sin licencia
@@ -219,7 +219,7 @@ Para más información sobre licenciamiento, contactar directamente.
 
 ---
 
-## 🙏 **Agradecimientos Especiales**
+## **Agradecimientos Especiales**
 
 Este proyecto fue desarrollado utilizando tecnologías de vanguardia y herramientas open source:
 
@@ -232,19 +232,19 @@ Este proyecto fue desarrollado utilizando tecnologías de vanguardia y herramien
 
 ---
 
-## 🔮 **Visión de Futuro**
+## **Visión de Futuro**
 
 ARGOM VENOM está en constante evolución con próximas características:
 
-- **🤖 AI Trading Bot:** Automatización de estrategias
-- **📱 Mobile App:** Versión nativa para iOS/Android
-- **🌐 Multi-Exchange:** Integración con más exchanges
-- **📈 Advanced Analytics:** Machine Learning para predicciones
-- **🤝 Social Trading:** Copia de estrategias de traders exitosos
+- **AI Trading Bot:** Automatización de estrategias
+- **Mobile App:** Versión nativa para iOS/Android
+- **Multi-Exchange:** Integración con más exchanges
+- **Advanced Analytics:** Machine Learning para predicciones
+- **Social Trading:** Copia de estrategias de traders exitosos
 
 ---
 
-**Desarrollado con ❤️ y ☕ por Edwin Estrella**
+**Desarrollado con ❤️ y esfuerzo por Edwin Estrella**
 
 *"Simplificando el trading de criptomonedas con tecnología de punta"*
 
