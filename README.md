@@ -38,53 +38,53 @@ _Sistema de trading avanzado con Telegram scraper integrado para análisis de me
 
 **Desarrollado por Edwin Estrella**
 
-**📧 Email:** edwinestrella67@gmail.com
+**Email:** edwinestrella67@gmail.com
 
 ---
 
-## 🏷️ Tags
+## Tags
 #Trading #Crypto #Dashboard #Telegram #Scraper #React #TypeScript #Electron #Python #Telethon #TelegramAPI #CryptoTrading #MarketAnalysis #RealTime #Authentication #SQLite #Express #NodeJS #ArgomVenom #TradingBot #MarketSignals #TokenAnalysis #DexScreener #PumpFun #Solana #Bitcoin #CryptoSignals #TradingDashboard #ProfessionalTrading
 
-## 📋 Descripción del Proyecto
+## ---Descripción del Proyecto---
 
 **ARGOM VENOM** es un sistema de trading profesional diseñado para traders que necesitan una solución completa para monitorear señales de mercado, analizar tendencias de criptomonedas, gestionar operaciones y automatizar el análisis de grupos de Telegram en tiempo real.
 
-## 🎯 Características Principales
+## ---Características Principales---
 
-### 💹 **Dashboard de Trading**
+### **Dashboard de Trading**
 - **Visualización en Tiempo Real:** Gráficos y métricas actualizadas instantáneamente
 - **Múltiples Pares:** Soporte para Bitcoin, Ethereum, Solana y más
 - **Análisis Técnico:** Indicadores y herramientas de análisis integradas
 - **Portafolio Dinámico:** Seguimiento de posiciones y ganancias/pérdidas
 - **Alertas Personalizables:** Notificaciones para cambios de precio importantes
 
-### 🤖 **Telegram Scraper Inteligente**
+### **Telegram Scraper Inteligente**
 - **Monitoría 24/7:** Escucha permanente de grupos de trading
 - **Filtrado Avanzado:** Detección inteligente de señales relevantes
 - **Keywords Configurables:** Busca términos específicos como DexScreener, Pump Fun
 - **Grupos Pre-configurados:** Integración con CryptoEnfermosChat y más
 - **Formateo Inteligente:** Detección automática de enlaces y patrones
 
-### 🔐 **Sistema de Autenticación Profesional**
+### **Sistema de Autenticación Profesional**
 - **Login Seguro:** Autenticación con credenciales encriptadas
 - **Sesión Permanente:** Mantén tu sesión activa por 7 días
 - **Panel de Control:** Gestión centralizada de usuario
 - **Caché Local:** Almacenamiento seguro de sesiones
 - **Logout Seguro:** Cierre de sesión con limpieza completa
 
-### 📊 **Análisis y Reportes**
+### **Análisis y Reportes**
 - **Métricas en Vivo:** Estadísticas de trading actualizadas
 - **Historial Completo:** Registro de todas las operaciones
 - **Exportación de Datos:** Compatible con Excel y CSV
 - **Dashboard Personalizable:** Adapta la vista a tus necesidades
 
-### 🎨 **Interfaz Profesional**
+### **Interfaz Profesional**
 - **Design Oscuro:** Optimizado para largas sesiones de trading
 - **Responsive:** Compatible con desktop y tablet
 - **Intuitivo:** Fácil navegación entre herramientas
 - **Modo Fullscreen:** Maximiza tu espacio de análisis
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 ### **Frontend**
 - **React 19.2** - Biblioteca de interfaz de usuario moderna
@@ -105,7 +105,7 @@ _Sistema de trading avanzado con Telegram scraper integrado para análisis de me
 - **Pump Fun** - Análisis de tokens emergentes
 - **Twitter/X API** - Monitoría de influencers
 
-## 🏗️ Arquitectura del Sistema
+## Arquitectura del Sistema
 
 ### **Módulos Principales**
 
