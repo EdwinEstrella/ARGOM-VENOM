@@ -12,7 +12,6 @@
 <div align="center">
   <h2>--- Stack Tecnológico --- </h2>
 </div>
-
 <div align="center">
   <h2>Frontend</h2>
 
