@@ -2,7 +2,7 @@ import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { PlayStoreButton } from './ui/play-store-button';
 import { AppStoreButton } from './ui/app-store-button';
-import { isElectron } from '../src/utils/platform';
+import { isElectron } from '../src/api';
 
 const FaqItem: React.FC<{ question: string; children: React.ReactNode }> = ({ question, children }) => (
     <div className="border-b border-[#3c3c53] py-6">

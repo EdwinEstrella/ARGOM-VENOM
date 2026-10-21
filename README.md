@@ -37,17 +37,11 @@
 <div align="center">
   <h2>Backend & Automatización</h2>
 
-  <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  </a>
-  <a href="https://github.com/LonamiWebs/Telethon">
-    <img src="https://img.shields.io/badge/Telethon-2A5EE0?style=for-the-badge&logo=python&logoColor=white" alt="Telethon">
-  </a>
   <a href="https://nodejs.org/">
     <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
   </a>
-  <a href="https://expressjs.com/">
-    <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white" alt="Express.js">
+  <a href="https://gram.js.org/">
+    <img src="https://img.shields.io/badge/GramJS-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="GramJS">
   </a>
   <a href="https://www.sqlite.org/">
     <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
@@ -64,9 +58,6 @@
   </a>
   <a href="https://dexscreener.com/">
     <img src="https://img.shields.io/badge/DexScreener-FF6B6B?style=for-the-badge&logoColor=white" alt="DexScreener">
-  </a>
-  <a href="https://socket.io/">
-    <img src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.IO">
   </a>
 </div>
 
@@ -92,7 +83,7 @@
 ---
 
 ## Tags
-#Trading #Crypto #Dashboard #Telegram #Scraper #React #TypeScript #Electron #Python #Telethon #TelegramAPI #CryptoTrading #MarketAnalysis #RealTime #Authentication #SQLite #Express #NodeJS #ArgomVenom #TradingBot #MarketSignals #TokenAnalysis #DexScreener #PumpFun #Solana #Bitcoin #CryptoSignals #TradingDashboard #ProfessionalTrading
+#Trading #Crypto #Dashboard #Telegram #Scraper #React #TypeScript #Electron #GramJS #TelegramAPI #CryptoTrading #MarketAnalysis #RealTime #Authentication #SQLite #NodeJS #ArgomVenom #TradingBot #MarketSignals #TokenAnalysis #DexScreener #PumpFun #Solana #Bitcoin #CryptoSignals #TradingDashboard #ProfessionalTrading
 
 ## ---Descripción del Proyecto---
 
@@ -142,11 +133,11 @@
 - **Vite** - Build tool ultra-rápido
 - **Electron 38.4** - Aplicación desktop multiplataforma
 
-### **Backend & Automatización**
-- **Python + Telethon** - Integración con Telegram API
-- **Node.js + Express** - Servidor de autenticación
-- **SQLite** - Base de datos local para sesiones
-- **Socket.IO** - Comunicación en tiempo real
+### **Backend (proceso main de Electron)**
+- **GramJS** - Cliente de Telegram (MTProto) en Node, sin Python
+- **SQLite (`node:sqlite`)** - Base de datos local, sin módulos nativos
+- **IPC tipado** - Contrato único en `shared/api.ts` entre main y la interfaz
+- **safeStorage** - Cifrado de credenciales con el llavero del sistema
 
 ### **Integraciones**
 - **Telegram API** - Acceso a grupos y mensajes
@@ -154,21 +145,50 @@
 - **Pump Fun** - Análisis de tokens emergentes
 - **Twitter/X API** - Monitoría de influencers
 
+## Desarrollo
+
+Requisitos: Node.js 22 o superior.
+
+```bash
+npm install
+npm run dev:electron   # app de escritorio con recarga en caliente
+npm run dev            # solo la interfaz en el navegador (datos simulados)
+npm test               # tests del backend (vitest)
+npm run typecheck      # TypeScript del frontend y de electron/
+npm run dist           # instalador para tu sistema operativo en release/
+```
+
+```
+electron/
+  main.ts                 ventana, arranque de servicios
+  preload.ts              expone window.argom (API tipada) a la interfaz
+  ipc.ts                  handlers IPC: verificación de origen y de sesión
+  services/
+    database.ts           SQLite + migraciones + ajustes clave/valor
+    auth.ts               cuenta local, scrypt, "recordar", bloqueo
+    secrets.ts            cifrado con safeStorage
+    telegram/             GramJS, filtros, almacenamiento de mensajes
+shared/api.ts             contrato IPC compartido (tipos y canales)
+src/api.ts                cliente para la interfaz (y simulación en navegador)
+```
+
+Los datos se guardan en `argom-venom.db`, dentro de la carpeta de datos de la app (`%APPDATA%/argom-venom` en Windows).
+
 ## Arquitectura del Sistema
 
 ### **Módulos Principales**
 
 #### **Módulo de Autenticación**
-- Login seguro con credenciales personalizadas
-- Gestión de sesiones persistentes
-- Panel de control de usuario
-- Caché local con encriptación
+- Cuenta local creada en el primer arranque (contraseña con hash scrypt)
+- Opción "mantener sesión iniciada" durante 7 días
+- Bloqueo temporal tras 5 intentos fallidos
 
 #### **Módulo Telegram Scraper**
-- Conexión con Telegram API usando Telethon
-- Monitoría de múltiples grupos simultáneamente
-- Filtrado inteligente con keywords
-- Detección de patrones y enlaces relevantes
+- Conexión con Telegram usando GramJS dentro de la app (sin Python)
+- Login con código y verificación en dos pasos desde la interfaz
+- Monitoría de varios grupos con filtrado por palabras clave
+- Detección de enlaces de DexScreener, pump.fun y X
+- Historial de 14 días guardado en SQLite
 
 #### **Dashboard Principal**
 - Visualización de portafolio
@@ -200,13 +220,11 @@
 
 ARGOM VENOM implementa medidas de seguridad enterprise:
 
-- **Encriptación End-to-End:** Protección de datos sensibles
-- **Almacenamiento Local:** Tus datos nunca salen de tu dispositivo
-- **Autenticación Segura:** Sin almacenamiento de contraseñas en texto plano
-- **Session Tokens:** Tokens JWT con expiración automática
-- **Sandboxing:** Aislamiento de procesos para seguridad
-- **Actualizaciones Automáticas:** Parches de seguridad regularmente
-- **Roles y permisos granulares**
+- **Almacenamiento local:** todo vive en la carpeta de datos del usuario; no hay servidor
+- **Contraseñas con hash:** scrypt con sal aleatoria, nunca en texto plano
+- **Credenciales cifradas:** el API Hash y la sesión de Telegram se cifran con `safeStorage`
+- **Sandbox:** renderer aislado (`contextIsolation`, `sandbox`, sin `nodeIntegration`) y CSP estricta
+- **IPC protegido:** solo responde a la ventana de la app y exige sesión iniciada
 
 ## **Análisis y Métricas**
 
@@ -272,10 +290,10 @@ Para más información sobre licenciamiento, contactar directamente.
 
 Este proyecto fue desarrollado utilizando tecnologías de vanguardia y herramientas open source:
 
-- **React & Next.js** - Frameworks JavaScript modernos
+- **React** - Biblioteca de interfaz de usuario
 - **TypeScript** - Superconjunto de JavaScript tipado
 - **Electron** - Desarrollo de aplicaciones desktop
-- **Python & Telethon** - Integración con Telegram
+- **GramJS** - Integración con Telegram
 - **TailwindCSS** - Framework CSS utility-first
 - **Vite** - Herramienta de construcción ultra-rápida
 

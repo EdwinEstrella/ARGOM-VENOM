@@ -49,7 +49,6 @@ export interface SettingsType {
     confirmTrades: boolean;
     defaultBuySlippage: number;
     defaultSellSlippage: number;
-    telegramConfig?: TelegramConfig;
 }
 
 export type Page =
@@ -96,19 +95,4 @@ export interface NewPair {
     liquidity: number;
 }
 
-export interface TelegramConfig {
-    apiId: string;
-    apiHash: string;
-    phone: string;
-    groups: string[];
-    keywords: string[];
-    isActive: boolean;
-}
-
-export interface TelegramMessage {
-    id: number;
-    group: string;
-    message: string;
-    timestamp: string;
-    processed: boolean;
-}
+export type { TelegramConfig, TelegramMessage } from './shared/api';

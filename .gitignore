@@ -37,3 +37,10 @@ release
 *.njsproj
 *.sln
 *.sw?
+
+# Datos locales de la app y sesiones de Telegram
+data/
+*.db
+*.db-wal
+*.db-shm
+*.session

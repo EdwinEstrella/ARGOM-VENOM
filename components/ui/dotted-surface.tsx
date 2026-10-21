@@ -85,7 +85,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 		scene.add(points);
 
 		let count = 0;
-		let animationId: number;
+		let animationId = 0;
 
 		// Animation function
 		const animate = () => {
@@ -150,7 +150,8 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			window.removeEventListener('resize', handleResize);
 
 			if (sceneRef.current) {
-				cancelAnimationFrame(sceneRef.current.animationId);
+				// El id cambia en cada frame: hay que cancelar el último, no el guardado al inicio.
+				cancelAnimationFrame(animationId);
 
 				// Clean up Three.js objects
 				sceneRef.current.scene.traverse((object) => {

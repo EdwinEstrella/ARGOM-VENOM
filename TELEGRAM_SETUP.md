@@ -1,116 +1,54 @@
-# Telegram Scraper Setup Guide
+# Configurar el scraper de Telegram
 
-This module allows you to monitor Telegram groups for LP (Liquidity Pool) opportunities and trading signals.
+El scraper escucha los mensajes nuevos de los grupos y canales en los que está tu cuenta, guarda los que coinciden con tus filtros y los muestra en tiempo real. Funciona dentro de la app de escritorio; no hace falta instalar Python ni nada más.
 
-## Prerequisites
+## 1. Consigue tu API ID y API Hash
 
-### 1. Get Telegram API Credentials
+1. Entra en <https://my.telegram.org/apps> con tu número de teléfono.
+2. Crea una aplicación (el nombre y la descripción dan igual).
+3. Copia el **App api_id** (número) y el **App api_hash** (32 caracteres).
 
-1. Go to [my.telegram.org](https://my.telegram.org)
-2. Sign in with your phone number
-3. Go to **API development tools**
-4. Fill out the form:
-   - App title: Any name you prefer
-   - Short name: A short version of the name
-   - Platform: Desktop
-5. Submit the form and copy your **API ID** and **API Hash**
+> Son credenciales personales: no las compartas ni las subas a un repositorio.
 
-### 2. Install Python Dependencies
+## 2. Configúralo en la app
 
-```bash
-pip install -r requirements.txt
-```
+En **TeleScraper → Configuración de la API**:
 
-## Configuration
+- **API ID** y **API Hash** de arriba.
+- **Teléfono** en formato internacional, p. ej. `+34600111222`.
 
-### In the Venom App:
+Pulsa **Guardar**. El API Hash se cifra con el llavero del sistema y no vuelve a mostrarse; para cambiarlo, escribe uno nuevo.
 
-1. Navigate to **TeleScraper** in the sidebar
-2. Fill in your credentials:
-   - **API ID**: Your numeric API ID from my.telegram.org
-   - **API Hash**: Your API hash from my.telegram.org
-   - **Phone Number**: Your phone number with country code (+1234567890)
+## 3. Conecta
 
-### Groups to Monitor:
+Pulsa **Conectar con Telegram**. La primera vez:
 
-Add the Telegram groups you want to monitor:
-- Group names (e.g., "Crypto Signals")
-- Group usernames (e.g., "@cryptogroup")
-- Private group links (if you have access)
+1. Telegram envía un código a tu app de Telegram. Escríbelo en la app y pulsa **Enviar**.
+2. Si tu cuenta tiene verificación en dos pasos, te pedirá esa contraseña.
 
-### Keywords to Track:
+La sesión queda guardada (cifrada), así que las siguientes veces conecta sin pedir código. Con **Conectar automáticamente al abrir la app** se conecta solo al iniciar sesión.
 
-Optional keywords to filter messages:
-- "token launch"
-- "new LP"
-- "presale"
-- "airdrop"
-- Custom keywords that interest you
+**Olvidar sesión de Telegram** desconecta y borra la sesión guardada. Al cambiar de teléfono o de API ID la sesión se descarta automáticamente.
 
-## Usage
+## 4. Filtros
 
-1. **Connect**: Click "Connect to Telegram" to start the scraper
-2. **Monitor**: The app will listen for messages in real-time
-3. **Filter**: Only messages containing your keywords will be captured
-4. **View**: All captured messages appear in the Messages Feed
+- **Grupos**: título del grupo (basta una parte, sin distinguir mayúsculas) o `@usuario` del canal. Sin grupos se escuchan todos los chats.
+- **Palabras clave**: el mensaje se guarda si contiene al menos una. Sin palabras clave se guardan todos.
 
-## Python Script Usage
+Los cambios de filtros se aplican al momento, sin reconectar.
 
-You can also run the Python script directly:
+Además, cada mensaje se etiqueta automáticamente si contiene enlaces de DexScreener, pump.fun, X/Twitter o menciones de Solana o tokens.
 
-```bash
-python telegram_scraper.py <api_id> <api_hash> <phone> [groups...] keywords: [keywords...]
-```
+## Almacenamiento
 
-Example:
-```bash
-python telegram_scraper.py 12345 abcdef123456 +1234567890 "Crypto Group" "Trading Signals" keywords: "token" "launch" "LP"
-```
+Los mensajes se guardan en la base de datos local durante **14 días** y después se borran automáticamente. **Borrar** en el panel de mensajes los elimina todos.
 
-## Features
+## Problemas frecuentes
 
-- **Real-time monitoring**: Live message capture from Telegram groups
-- **Keyword filtering**: Only capture messages that contain specific keywords
-- **Multiple groups**: Monitor multiple groups simultaneously
-- **LP integration**: Works with your existing LP Sniper functionality
-- **Secure communication**: All API communication handled through Electron backend
-
-## Security Notes
-
-- Your API credentials are stored locally only
-- Never share your API ID and API hash
-- The script only reads messages, it cannot send messages
-- Make sure you only join groups you trust
-
-## Troubleshooting
-
-### Connection Issues:
-- Verify your API ID and API hash are correct
-- Ensure your phone number includes the country code
-- Check that you're joined to the groups you want to monitor
-
-### Python Issues:
-- Make sure you have Python 3.7+ installed
-- Install dependencies: `pip install -r requirements.txt`
-- On first run, you may need to enter a verification code
-
-### Performance:
-- Monitor fewer groups for better performance
-- Use specific keywords to reduce noise
-- Clear the message feed regularly
-
-## Integration with LP Sniper
-
-The Telegram Scraper works seamlessly with the LP Sniper:
-- Capture token launch announcements
-- Identify early liquidity pool opportunities
-- Get real-time trading signals from trusted groups
-- Filter messages to focus on LP-related content
-
-## Support
-
-For issues or questions:
-1. Check the console for error messages
-2. Verify your Telegram API credentials
-3. Ensure Python dependencies are installed
-4. Make sure you're joined to the target groups
+| Mensaje | Qué hacer |
+|---------|-----------|
+| API ID o API Hash no válidos | Revisa los valores en my.telegram.org |
+| Número de teléfono no válido | Usa formato internacional con `+` y prefijo del país |
+| Código incorrecto | Vuelve a escribirlo; el formulario sigue abierto |
+| El código ha caducado | Pulsa **Conectar** otra vez para recibir uno nuevo |
+| Telegram limita los intentos | Espera el tiempo indicado antes de reintentar |

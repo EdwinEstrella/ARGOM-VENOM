@@ -1,24 +1,14 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "outDir": "../dist-electron",
-    "rootDir": ".",
     "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "lib": ["ES2022"],
-    "allowSyntheticDefaultImports": true,
+    "types": ["node"],
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strict": true,
-    "noEmit": false,
-    "types": ["node"]
+    "noEmit": true
   },
-  "include": [
-    "**/*"
-  ],
-  "exclude": [
-    "../node_modules",
-    "../dist",
-    "../dist-electron"
-  ]
+  "include": ["./**/*.ts", "../shared/**/*.ts"]
 }

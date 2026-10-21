@@ -17,6 +17,8 @@ import { Help } from './components/Help';
 import { SwapModal } from './components/modals/SwapModal';
 import type { Page, OrderType, Strategy } from './types';
 import { StrategyStatus } from './types';
+import type { AuthStatus } from './shared/api';
+import { api } from './src/api';
 
 // Mock data for active strategies
 const mockStrategies: Strategy[] = [
@@ -64,21 +66,15 @@ const App: React.FC = () => {
     const [isSwapModalOpen, setIsSwapModalOpen] = useState(false);
     const [swapModalType, setSwapModalType] = useState<OrderType>('Buy');
     const [strategies, setStrategies] = useState<Strategy[]>(mockStrategies);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [currentUser, setCurrentUser] = useState<string>('');
-    // Cargar configuración guardada del Telegram Scraper
-    const savedTelegramConfig = localStorage.getItem('argomVenomTelegramConfig');
-    const defaultTelegramConfig = {
-        apiId: '34391980',
-        apiHash: 'b827ab78baa27abb6ecfc09d08a499bf',
-        phone: '+5492664553929',
-        groups: ['CryptoEnfermosChat'],
-        keywords: ['dexscreener.com', 'pump.fun', 'x.com', 'twitter.com', 'solana', 'token'],
-        isActive: false
-    };
-    const [telegramConfig, setTelegramConfig] = useState(
-        savedTelegramConfig ? JSON.parse(savedTelegramConfig) : defaultTelegramConfig
-    );
+    const [auth, setAuth] = useState<AuthStatus | null>(null);
+    const [authError, setAuthError] = useState('');
+
+    useEffect(() => {
+        api.auth
+            .status()
+            .then(setAuth)
+            .catch(() => setAuthError('No se pudo iniciar el proceso principal'));
+    }, []);
 
     const handleCancelStrategy = (id: number) => {
         setStrategies(prev => prev.filter(s => s.id !== id));
@@ -94,40 +90,17 @@ const App: React.FC = () => {
         setIsSwapModalOpen(false);
     }, []);
 
-    const handleLogin = (authenticated: boolean, user: string) => {
-        setIsAuthenticated(authenticated);
-        setCurrentUser(user);
-        if (authenticated) {
-            // Solo redirigir al dashboard si no hay una página guardada
-            const savedPage = localStorage.getItem('argomVenomCurrentPage') as Page;
-            if (!savedPage || savedPage === 'dashboard') {
-                setPage('dashboard');
-            }
-            // Si hay una página guardada, mantenerse en esa página
+    const handleLogout = async () => {
+        const result = await api.auth.logout();
+        if (result.ok) {
+            setAuth(result.data);
         }
-    };
-
-    const handleLogout = () => {
-        setIsAuthenticated(false);
-        setCurrentUser('');
-        // Limpiar sesión del localStorage
-        localStorage.removeItem('argomVenomSession');
-        setPage('dashboard');
-    };
-
-    const handleTelegramConfigChange = (config: any) => {
-        setTelegramConfig(config);
     };
 
     // Efecto para guardar la página actual en localStorage
     useEffect(() => {
         localStorage.setItem('argomVenomCurrentPage', page);
     }, [page]);
-
-    // Efecto para guardar la configuración del Telegram Scraper en localStorage
-    useEffect(() => {
-        localStorage.setItem('argomVenomTelegramConfig', JSON.stringify(telegramConfig));
-    }, [telegramConfig]);
 
     const PageRenderer: React.FC = () => {
     const { isEnglish } = useLanguage();
@@ -159,7 +132,7 @@ const App: React.FC = () => {
         case 'withdraw':
             return <Withdraw />;
         case 'telegram-scraper':
-            return <TelegramScraper config={telegramConfig} onConfigChange={handleTelegramConfigChange} />;
+            return <TelegramScraper />;
         case 'settings':
             return <Settings />;
         case 'help':
@@ -177,16 +150,19 @@ const renderPage = () => <PageRenderer />;
         setIsSidebarOpen(false); // Close sidebar on navigation
     }
 
-    // Si no está autenticado, mostrar pantalla de login
-    if (!isAuthenticated) {
+    if (!auth) {
+        return (
+            <div className="flex h-screen items-center justify-center bg-[#0D0D0F] text-[#A0A0A0]">
+                {authError || 'Cargando...'}
+            </div>
+        );
+    }
+
+    if (!auth.authenticated) {
         return (
             <LanguageProvider>
                 <div className="min-h-screen relative">
-                    <Login
-                        onLogin={handleLogin}
-                        isAuthenticated={isAuthenticated}
-                        currentUser={currentUser}
-                    />
+                    <Login status={auth} onAuthenticated={setAuth} />
                 </div>
             </LanguageProvider>
         );
@@ -204,7 +180,7 @@ const renderPage = () => <PageRenderer />;
                     openSwapModal={openSwapModal}
                 />
                 <div className="flex flex-1 flex-col overflow-y-auto">
-                    <Header pageTitle={page} onMenuClick={() => setIsSidebarOpen(true)} onLogout={handleLogout} currentUser={currentUser} />
+                    <Header pageTitle={page} onMenuClick={() => setIsSidebarOpen(true)} onLogout={handleLogout} currentUser={auth.username ?? ''} />
                     <main className="flex-1 p-4 md:p-8">
                         {renderPage()}
                     </main>
