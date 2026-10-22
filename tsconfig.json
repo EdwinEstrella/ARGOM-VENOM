@@ -9,6 +9,7 @@
       "DOM",
       "DOM.Iterable"
     ],
+    "strict": true,
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "isolatedModules": true,
@@ -27,13 +28,16 @@
     "src/**/*",
     "components/**/*",
     "contexts/**/*",
-    "types/**/*",
-    "server/**/*"
+    "shared/**/*",
+    "*.ts",
+    "*.tsx"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "dist-electron",
+    "electron",
+    "vite.config.ts",
     "release"
   ]
 }

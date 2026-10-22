@@ -1,291 +1,168 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from './Card';
 import { DottedBackground } from './ui/dotted-background';
+import { api } from '../src/api';
+import type { AuthStatus } from '../shared/api';
 
 interface LoginProps {
-    onLogin: (isAuthenticated: boolean, user: string) => void;
-    isAuthenticated: boolean;
-    currentUser?: string;
+    status: AuthStatus;
+    onAuthenticated: (status: AuthStatus) => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ onLogin, isAuthenticated, currentUser }) => {
+const inputClass =
+    'form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 pr-12 text-base font-normal leading-normal';
+
+const EyeIcon: React.FC<{ open: boolean }> = ({ open }) =>
+    open ? (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+        </svg>
+    ) : (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+    );
+
+/**
+ * Primer arranque: crea usuario y contraseña locales.
+ * Siguientes arranques: pide la contraseña. Todo se valida en el proceso main.
+ */
+export const Login: React.FC<LoginProps> = ({ status, onAuthenticated }) => {
+    const isSetup = !status.configured;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
+    const [remember, setRemember] = useState(true);
+    const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [rememberMe, setRememberMe] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
-    const [isDemoMode, setIsDemoMode] = useState(false);
 
-    // Credenciales válidas
-    const VALID_CREDENTIALS = {
-        username: 'Marcos',
-        password: 'memecoins2025'
-    };
-
-    // Usuario de prueba
-    const DEMO_CREDENTIALS = {
-        username: 'demo',
-        password: 'demo123'
-    };
-
-    // Al montar, verificar si hay una sesión guardada o parámetro demo
-    useEffect(() => {
-        checkExistingSession();
-        checkForDemoParameter();
-    }, []);
-
-    const checkForDemoParameter = () => {
-        try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const isFromReadme = urlParams.get('from') === 'readme' ||
-                window.document.referrer.includes('github.com');
-
-            if (isFromReadme || urlParams.get('demo') === 'true') {
-                console.log('🚀 Acceso desde README detectado - Autocompletando modo demo');
-                // Activar modo demo para evitar errores de validación
-                setIsDemoMode(true);
-
-                // Limpiar cualquier error existente
-                setError('');
-
-                // Solo autocompletar formulario, sin login automático
-                setUsername(DEMO_CREDENTIALS.username);
-                setPassword(DEMO_CREDENTIALS.password);
-                setRememberMe(true);
-
-                // NO llamar a performAutoLogin() - el usuario debe hacer clic manualmente
-            }
-        } catch (error) {
-            console.error('Error checking demo parameter:', error);
-        }
-    };
-
-    const checkExistingSession = async () => {
-        try {
-            // Verificar en localStorage
-            const cachedSession = localStorage.getItem('argomVenomSession');
-            if (cachedSession) {
-                const sessionData = JSON.parse(cachedSession);
-
-                // Verificar si la sesión aún es válida (no ha expirado)
-                if (sessionData.expiresAt > Date.now()) {
-                    console.log('✅ Sesión caché encontrada para:', sessionData.username);
-                    onLogin(true, sessionData.username);
-                    return;
-                }
-                // Si expiró, limpiar
-                localStorage.removeItem('argomVenomSession');
-            }
-        } catch (error) {
-            console.error('Error checking existing session:', error);
-        }
-    };
-
-    const cacheSession = (username: string) => {
-        if (rememberMe) {
-            const sessionData = {
-                username,
-                loginTime: Date.now(),
-                expiresAt: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 días
-            };
-            localStorage.setItem('argomVenomSession', JSON.stringify(sessionData));
-            console.log('💾 Sesión guardada en caché para:', username);
-        }
-    };
-
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true);
         setError('');
-
-        // Resetear modo demo al intentar login manual
-        setIsDemoMode(false);
-
-        // Validar credenciales (incluyendo usuario demo)
-        const isValidMainUser = username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password;
-        const isValidDemoUser = username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS.password;
-
-        if (isValidMainUser || isValidDemoUser) {
-            try {
-                // Cache local si rememberMe está activado
-                cacheSession(username);
-
-                onLogin(true, username);
-                setError('');
-                console.log('✅ Login exitoso para:', username);
-
-                // TODO: Integrar con servidor cuando esté disponible
-                // await saveSessionToServer(username);
-
-            } catch (error) {
-                console.error('Error en login:', error);
-                setError('Error de conexión');
-            }
-        } else {
-            setError('Credenciales incorrectas');
-            console.log('❌ Credenciales inválidas');
+        if (isSetup && password !== confirm) {
+            setError('Las contraseñas no coinciden');
+            return;
         }
-
-        setIsLoading(false);
-    };
-
-    const handleLogout = async () => {
+        setIsLoading(true);
         try {
-            // Limpiar caché local
-            localStorage.removeItem('argomVenomSession');
-            console.log('🗑️ Sesión eliminada de caché');
-
-            onLogin(false, '');
-            setUsername('');
-            setPassword('');
-
-            // TODO: Integrar con servidor cuando esté disponible
-            // await clearSessionFromServer(currentUser);
-
-        } catch (error) {
-            console.error('Error en logout:', error);
+            const result = isSetup ? await api.auth.setup(username, password) : await api.auth.login(password, remember);
+            if (result.ok) {
+                onAuthenticated(result.data);
+            } else {
+                setError(result.error);
+            }
+        } catch {
+            setError('No se pudo contactar con el proceso principal');
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    // Si ya está autenticado, mostrar panel de control
-    if (isAuthenticated && currentUser) {
-        return (
-            <Card title="Panel de Control de Usuario">
-                <div className="flex flex-col gap-4">
-                    <div className="bg-[#2A2A2E] p-4 rounded-lg border border-[#292938]">
-                        <h3 className="text-white text-lg font-semibold mb-2">Bienvenido, {currentUser}!</h3>
-                        <p className="text-[#A0A0A0] text-sm">Sesión activa y permanente</p>
-                        <div className="mt-3 flex items-center gap-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-green-400 text-sm">Conectado</span>
-                        </div>
-                    </div>
+    const canSubmit = !isLoading && password && (!isSetup || (username.trim() && confirm));
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-[#1A1A1D] p-3 rounded-lg border border-[#292938]">
-                            <p className="text-[#A0A0A0] text-xs uppercase tracking-wider">Usuario</p>
-                            <p className="text-white text-sm font-medium">{currentUser}</p>
-                        </div>
-                        <div className="bg-[#1A1A1D] p-3 rounded-lg border border-[#292938]">
-                            <p className="text-[#A0A0A0] text-xs uppercase tracking-wider">Nivel</p>
-                            <p className="text-primary text-sm font-medium">Premium</p>
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={handleLogout}
-                        className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-                    >
-                        Cerrar Sesión
-                    </button>
-                </div>
-            </Card>
-        );
-    }
-
-    // Formulario de login
     return (
         <div className="relative min-h-screen">
             <DottedBackground />
             <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
                 <Card>
-                    <form onSubmit={handleLogin} className="flex flex-col gap-4">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80 max-w-full">
                         <div className="mb-6 text-center">
                             <div className="flex justify-center mb-4">
-                                <img src="/venom.ico" alt="ARGOM VENOM" className="w-20 h-20" />
+                                <img src="./venom.ico" alt="ARGOM VENOM" className="w-20 h-20" />
                             </div>
                             <h2 className="text-3xl font-black tracking-tighter text-white mb-2">
                                 ARGOM<span className="text-primary">VENOM</span>
                             </h2>
+                            <p className="text-[#A0A0A0] text-sm">
+                                {isSetup
+                                    ? 'Crea tu cuenta local para proteger la app'
+                                    : `Hola de nuevo, ${status.username}`}
+                            </p>
                         </div>
 
-                        {error && !isDemoMode && (
-                            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+                        {error && (
+                            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3" role="alert">
                                 <p className="text-red-400 text-sm">{error}</p>
                             </div>
                         )}
 
-                        <div className="flex flex-col gap-4">
+                        {isSetup && (
                             <label className="flex flex-col">
-                                <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">
-                                    Usuario
-                                </p>
+                                <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Usuario</p>
                                 <input
-                                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 text-base font-normal leading-normal"
+                                    className={inputClass}
                                     type="text"
-                                    placeholder="Ingresa tu usuario"
+                                    placeholder="Tu nombre"
                                     value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={e => setUsername(e.target.value)}
                                     disabled={isLoading}
                                     autoComplete="username"
+                                    autoFocus
                                 />
                             </label>
+                        )}
 
+                        <label className="flex flex-col">
+                            <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Contraseña</p>
+                            <div className="relative">
+                                <input
+                                    className={inputClass}
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder={isSetup ? 'Mínimo 8 caracteres' : 'Ingresa tu contraseña'}
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                    disabled={isLoading}
+                                    autoComplete={isSetup ? 'new-password' : 'current-password'}
+                                    autoFocus={!isSetup}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9d9db8] hover:text-[#EAEAEA] transition-colors"
+                                    title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                                >
+                                    <EyeIcon open={showPassword} />
+                                </button>
+                            </div>
+                        </label>
+
+                        {isSetup ? (
                             <label className="flex flex-col">
-                                <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">
-                                    Contraseña
-                                </p>
-                                <div className="relative">
-                                    <input
-                                        className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border border-[#3c3c53] bg-[#121212] focus:border-primary h-12 placeholder:text-[#9d9db8] px-4 pr-12 text-base font-normal leading-normal"
-                                        type={showPassword ? "text" : "password"}
-                                        placeholder="Ingresa tu contraseña"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        disabled={isLoading}
-                                        autoComplete="current-password"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        disabled={isLoading}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#9d9db8] hover:text-[#EAEAEA] transition-colors disabled:cursor-not-allowed"
-                                        title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                                    >
-                                        {showPassword ? (
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                                            </svg>
-                                        ) : (
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                        )}
-                                    </button>
-                                </div>
+                                <p className="text-[#EAEAEA] text-base font-medium leading-normal pb-2">Repite la contraseña</p>
+                                <input
+                                    className={inputClass}
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={confirm}
+                                    onChange={e => setConfirm(e.target.value)}
+                                    disabled={isLoading}
+                                    autoComplete="new-password"
+                                />
                             </label>
-
+                        ) : (
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input
                                     type="checkbox"
-                                    checked={rememberMe}
-                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                    checked={remember}
+                                    onChange={e => setRemember(e.target.checked)}
                                     className="w-4 h-4 rounded border-[#3c3c53] bg-[#121212] text-primary focus:ring-primary focus:ring-2"
                                 />
-                                <span className="text-[#EAEAEA] text-sm">
-                                    Mantener sesión activa (recomendado)
-                                </span>
+                                <span className="text-[#EAEAEA] text-sm">Mantener sesión iniciada 7 días</span>
                             </label>
-                        </div>
+                        )}
 
                         <button
                             type="submit"
-                            disabled={isLoading || !username || !password}
+                            disabled={!canSubmit}
                             className="w-full bg-primary hover:bg-primary/90 disabled:bg-[#3c3c53] text-background-dark font-medium py-3 px-4 rounded-lg transition-colors disabled:cursor-not-allowed"
                         >
-                            {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                            {isLoading ? 'Un momento...' : isSetup ? 'Crear cuenta' : 'Iniciar sesión'}
                         </button>
 
-                        <div className="text-center mt-4">
-                            <p className="text-[#A0A0A0] text-xs mb-2">
-                                Sistema de autenticación segura y permanente
-                            </p>
-                            <p className="text-[#666] text-xs">
-                                <span className="font-semibold">Usuario de prueba:</span> demo / demo123
-                            </p>
-                        </div>
+                        <p className="text-[#666] text-xs text-center">
+                            Tus datos se guardan solo en este equipo.
+                        </p>
                     </form>
                 </Card>
             </div>

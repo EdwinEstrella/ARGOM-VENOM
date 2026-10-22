@@ -1,69 +1,43 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron';
+import { IPC, type ArgomAPI } from '../shared/api';
 
-// Exponer API segura al renderer process
-contextBridge.exposeInMainWorld('electronAPI', {
-  isElectron: true,
-  platform: process.platform,
+// Con sandbox activado el preload no puede importar módulos propios en tiempo
+// de ejecución: Vite incrusta aquí las constantes de shared/api.
 
-  // Métodos para comunicación con el main process
-  downloadFile: (url: string, filename: string) => {
-    return ipcRenderer.invoke('download-file', { url, filename });
-  },
+const invoke = (channel: string, ...args: unknown[]) => ipcRenderer.invoke(channel, ...args);
 
-  onDownloadProgress: (callback: (progress: number) => void) => {
-    ipcRenderer.on('download-progress', (_, progress) => callback(progress));
-  },
-
-  onDownloadComplete: (callback: (filepath: string) => void) => {
-    ipcRenderer.on('download-complete', (_, filepath) => callback(filepath));
-  },
-
-  onDownloadError: (callback: (error: string) => void) => {
-    ipcRenderer.on('download-error', (_, error) => callback(error));
-  },
-
-  // Telegram Scraper methods
-  startTelegramScraper: (config: any) => {
-    return ipcRenderer.invoke('start-telegram-scraper', config);
-  },
-
-  stopTelegramScraper: () => {
-    return ipcRenderer.invoke('stop-telegram-scraper');
-  },
-
-  onTelegramMessage: (callback: (message: any) => void) => {
-    ipcRenderer.on('telegram-message', (_, message) => callback(message));
-  },
-
-  onTelegramLog: (callback: (log: string) => void) => {
-    ipcRenderer.on('telegram-log', (_, log) => callback(log));
-  },
-
-  onTelegramError: (callback: (error: string) => void) => {
-    ipcRenderer.on('telegram-error', (_, error) => callback(error));
-  },
-
-  onTelegramDisconnected: (callback: () => void) => {
-    ipcRenderer.on('telegram-disconnected', () => callback());
-  }
-});
-
-// Types para TypeScript
-declare global {
-  interface Window {
-    electronAPI: {
-      isElectron: boolean;
-      platform: string;
-      downloadFile: (url: string, filename: string) => Promise<string>;
-      onDownloadProgress: (callback: (progress: number) => void) => void;
-      onDownloadComplete: (callback: (filepath: string) => void) => void;
-      onDownloadError: (callback: (error: string) => void) => void;
-      startTelegramScraper: (config: any) => Promise<{ success: boolean; message?: string; error?: string }>;
-      stopTelegramScraper: () => Promise<{ success: boolean; message?: string; error?: string }>;
-      onTelegramMessage: (callback: (message: any) => void) => void;
-      onTelegramLog: (callback: (log: string) => void) => void;
-      onTelegramError: (callback: (error: string) => void) => void;
-      onTelegramDisconnected: (callback: () => void) => void;
+function subscribe<T>(channel: string, cb: (payload: T) => void): () => void {
+    const listener = (_event: IpcRendererEvent, payload: T) => cb(payload);
+    ipcRenderer.on(channel, listener);
+    return () => {
+        ipcRenderer.removeListener(channel, listener);
     };
-  }
 }
+
+const api: ArgomAPI = {
+    isElectron: true,
+    platform: process.platform,
+    auth: {
+        status: () => invoke(IPC.authStatus),
+        setup: (username, password) => invoke(IPC.authSetup, username, password),
+        login: (password, remember) => invoke(IPC.authLogin, password, remember),
+        logout: () => invoke(IPC.authLogout),
+        changePassword: (current, next) => invoke(IPC.authChangePassword, current, next),
+    },
+    telegram: {
+        getConfig: () => invoke(IPC.tgGetConfig),
+        saveConfig: input => invoke(IPC.tgSaveConfig, input),
+        getStatus: () => invoke(IPC.tgGetStatus),
+        connect: () => invoke(IPC.tgConnect),
+        disconnect: () => invoke(IPC.tgDisconnect),
+        submitCode: code => invoke(IPC.tgSubmitCode, code),
+        submitPassword: password => invoke(IPC.tgSubmitPassword, password),
+        forgetSession: () => invoke(IPC.tgForgetSession),
+        getMessages: query => invoke(IPC.tgGetMessages, query),
+        clearMessages: () => invoke(IPC.tgClearMessages),
+        onStatus: cb => subscribe(IPC.tgStatusEvent, cb),
+        onMessage: cb => subscribe(IPC.tgMessageEvent, cb),
+    },
+};
+
+contextBridge.exposeInMainWorld('argom', api);
